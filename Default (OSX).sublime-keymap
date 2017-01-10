@@ -1,0 +1,7 @@
+[
+    { "keys": ["super+alt+b"], "command": "next_result" },
+    { "keys": ["super+alt+shift+b"], "command": "prev_result" },
+    { "keys": ["super+shift+o"], "command" : "show_panel" , "args" : {"panel": "output.exec"} },
+    { "keys": ["super+forward_slash"], "command": "toggle_comment", "args": { "block": false } },
+    { "keys": ["super+alt+forward_slash"], "command": "toggle_comment", "args": { "block": true } }
+]
