@@ -1,0 +1,91 @@
+{
+  "cmd": [ "stack", "build"
+         , "--test", "--no-run-tests"
+         , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"],
+  "variants": 
+    [ {
+        "name": "runghc",
+        "cmd": [ "stack", "runghc"
+               , "--"
+               , "-Wall"
+               , "$file" 
+               ],
+    }, { 
+        "name": "ghc",
+        "cmd": [ "ghc"
+               , "-Wall"
+               , "$file" 
+               ],
+    }, { 
+        "name": "raw",
+        "cmd": [ "stack", "$file" 
+               ],
+    }, { 
+        "name": "test",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing" ],
+    }, {
+        "name": "coverage",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing" 
+               , "--coverage" ],
+    }, {
+        "name": "clean",
+        "cmd": [ "stack", "clean" ],
+    }, {
+        "name": "install",
+        "cmd": [ "stack", "install" ],
+    }, {
+        "name": "nightly",
+        "cmd": [ "stack", "build"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--test", "--no-run-tests"
+               , "--resolver","nightly" ],
+    }, {
+        "name": "nightly - test",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--resolver","nightly" ],
+    }, {
+        "name": "-Werror",
+        "cmd": [ "stack", "build"
+               , "--ghc-options", "-fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--pedantic"
+               , "--test", "--no-run-tests" ],
+    }, {
+        "name": "lts-3",
+        "cmd": [ "stack", "build"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--test", "--no-run-tests"
+               , "--resolver","lts-3" ],
+    }, {
+        "name": "lts-6",
+        "cmd": [ "stack", "build"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--test", "--no-run-tests"
+               , "--resolver","lts-6" ],
+    }, {
+        "name": "lts-7",
+        "cmd": [ "stack", "build"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--test", "--no-run-tests"
+               , "--resolver","lts-7" ],
+    }, {
+        "name": "lts-3 - test",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--resolver","lts-3" ],
+    }, {
+        "name": "lts-6 - test",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--resolver","lts-6" ],
+    }, {
+        "name": "lts-7 - test",
+        "cmd": [ "stack", "test"
+               , "--ghc-options", "-Wall -fno-warn-type-defaults -fno-warn-name-shadowing"
+               , "--resolver","lts-7" ],
+    } ],
+  "file_regex": "^ {0,4}([^\\s=:\\(\\)][^\\n:\\(\\)]+?hs):([0-9]*):?([0-9]*)",
+  "selector": "source.haskell"
+}
