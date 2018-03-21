@@ -1,0 +1,554 @@
+#+TITLE:       Main Google calendar entries
+#+AUTHOR:      Eric S Fraga
+#+EMAIL:       e.fraga@ucl.ac.uk
+#+DESCRIPTION: converted using the ical2org awk script
+#+CATEGORY:    google
+#+STARTUP:     hidestars
+#+STARTUP:     overview
+
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=17) warning: gensub: third argument `RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=24) warning: gensub: third argument `RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=35) warning: gensub: third argument `RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=42) warning: gensub: third argument `RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU' treated as 1
+* COMMENT original iCal preamble
+
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=52) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=53) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=54) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=55) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=56) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=57) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=69) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091229T120000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=69) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091229T120000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=74) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=86) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20120830T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=86) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120830T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=86) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120830T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=111) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=112) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=113) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=114) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=198) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=199) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=200) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=201) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=202) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=253) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=254) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=255) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=256) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=268) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20120117T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=268) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120117T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=268) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120117T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=300) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091229T140000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=300) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091229T140000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=316) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091225T140000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=316) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091225T140000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=366) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20100528T140000Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=366) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100528T140000Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=366) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100528T140000Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=371) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=383) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091124T160000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=383) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091124T160000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=405) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=417) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091126T120000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=417) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091126T120000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=464) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=487) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=488) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=489) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=490) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:119: (FILENAME=basic.ics FNR=534) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=541) warning: gensub: third argument `RRULE:FREQ=WEEKLY;COUNT=12;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=541) warning: gensub: third argument `FREQ=WEEKLY;COUNT=12;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=557) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091201T225959Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=557) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091201T225959Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=573) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20100527T150000Z;INTERVAL=1;BYDAY=TU,TH' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=573) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100527T150000Z;INTERVAL=1;BYDAY=TU,TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=573) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100527T150000Z;INTERVAL=1;BYDAY=TU,TH' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=578) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=638) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091228T080000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=638) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091228T080000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=670) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20120827T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=670) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120827T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=670) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120827T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=702) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20141225T045959Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=702) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20141225T045959Z' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=800) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20120828T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=800) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120828T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=800) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120828T035959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=867) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091231T080000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=867) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091231T080000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=904) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091228T160000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=904) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091228T160000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=946) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091230T150000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=946) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091230T150000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=967) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=979) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091225T070000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=979) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091225T070000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=984) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1005) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1006) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1007) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1008) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=1020) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20120119T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=1020) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120119T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=1020) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20120119T045959Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=1036) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091230T120000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=1036) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091230T120000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1061) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1062) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1063) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1064) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1065) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1066) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1067) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1068) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1069) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1070) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1291) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1292) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1293) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1294) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1295) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1296) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1297) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1298) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1299) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1300) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1301) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1302) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:272: (FILENAME=basic.ics FNR=1433) warning: gensub: third argument `' treated as 1
+* Joan
+<2017-11-07 Tue 10:15-11:15>
+:PROPERTIES:
+:ID:       0B3C4933-8D5E-4F41-BB9B-E684426B53C3
+:STATUS:   CONFIRMED
+:END:
+
+awk: /Users/simon/bin/ical2org:284: (FILENAME=basic.ics FNR=1433) warning: gensub: third argument `' treated as 1
+This is an event reminder This is an event reminder
+** COMMENT original iCal entry
+
+BEGIN:VEVENT
+DTSTART:20171107T151500Z
+DTEND:20171107T161500Z
+UID:0B3C4933-8D5E-4F41-BB9B-E684426B53C3
+CREATED:20170927T163110Z
+DESCRIPTION:
+LAST-MODIFIED:20171101T173446Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Joan
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+awk: /Users/simon/bin/ical2org:272: (FILENAME=basic.ics FNR=1481) warning: gensub: third argument `' treated as 1
+* lunch with francois
+<2017-10-25 Wed 11:00-12:00>
+:PROPERTIES:
+:ID:       F06CEEEC-8007-4F2E-8BE7-C9431DFBC0F8
+:STATUS:   CONFIRMED
+:END:
+
+** COMMENT original iCal entry
+
+BEGIN:VEVENT
+DTSTART:20171025T150000Z
+DTEND:20171025T160000Z
+UID:F06CEEEC-8007-4F2E-8BE7-C9431DFBC0F8
+CREATED:20171024T215103Z
+DESCRIPTION:
+LAST-MODIFIED:20171101T173445Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:lunch with francois
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+END:VEVENT
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1513) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=1514) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=1635) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20101208T225959Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=1635) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20101208T225959Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2069) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20151202T045959Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2069) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151202T045959Z' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2103) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091228T120000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2103) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091228T120000Z;BYDAY=MO' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2158) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2159) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2160) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2161) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2162) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2163) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2164) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2187) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2188) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2189) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2190) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2191) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2192) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2193) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2194) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2195) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2196) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2208) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20160823T140000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2208) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20160823T140000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2407) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2483) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2484) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2485) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2486) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2487) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2488) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:119: (FILENAME=basic.ics FNR=2530) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2574) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091231T160000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2574) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091231T160000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2599) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2600) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2601) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2602) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2603) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2604) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2870) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20100526T110000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2870) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100526T110000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=2875) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2887) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20091225T090000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2887) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20091225T090000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=2903) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20110819T130000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=2903) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20110819T130000Z;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=3113) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20100526T070000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=3113) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100526T070000Z;BYDAY=WE' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=3118) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:272: (FILENAME=basic.ics FNR=3339) warning: gensub: third argument `' treated as 1
+* Writing
+<2017-11-01 Wed 11:00-12:00>
+:PROPERTIES:
+:ID:       1A5B2730-AEF9-423F-95CD-D9F8B64E5739
+:STATUS:   CONFIRMED
+:END:
+
+awk: /Users/simon/bin/ical2org:284: (FILENAME=basic.ics FNR=3339) warning: gensub: third argument `' treated as 1
+This is an event reminder This is an event reminder This is an event reminder This is an event reminder This is an event reminder
+** COMMENT original iCal entry
+
+BEGIN:VEVENT
+DTSTART:20171101T150000Z
+DTEND:20171101T160000Z
+UID:FF888FFF-D5E2-4C60-8A9F-4DA9316B7797
+RECURRENCE-ID:20171101T150000Z
+CREATED:20171101T165635Z
+DESCRIPTION:
+LAST-MODIFIED:20171101T173337Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Writing
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P0DT0H30M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:P0DT1H59M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P0DT0H5M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:P0DT1H42M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:P0DT1H2M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:NONE
+TRIGGER;VALUE=DATE-TIME:19760401T005545Z
+X-WR-ALARMUID:1A5B2730-AEF9-423F-95CD-D9F8B64E5739
+UID:1A5B2730-AEF9-423F-95CD-D9F8B64E5739
+ACKNOWLEDGED:20171101T164425Z
+END:VALARM
+END:VEVENT
+awk: /Users/simon/bin/ical2org:272: (FILENAME=basic.ics FNR=3382) warning: gensub: third argument `' treated as 1
+* Writing
+<2017-10-25 Wed 15:00-16:00>
+:PROPERTIES:
+:ID:       FFE1CEEB-3E39-400E-B69D-58E6E4C70D92
+:STATUS:   CONFIRMED
+:END:
+
+awk: /Users/simon/bin/ical2org:284: (FILENAME=basic.ics FNR=3382) warning: gensub: third argument `' treated as 1
+This is an event reminder This is an event reminder This is an event reminder This is an event reminder
+** COMMENT original iCal entry
+
+BEGIN:VEVENT
+DTSTART:20171025T190000Z
+DTEND:20171025T200000Z
+UID:FF888FFF-D5E2-4C60-8A9F-4DA9316B7797
+RECURRENCE-ID:20171025T150000Z
+CREATED:20171101T165635Z
+DESCRIPTION:
+LAST-MODIFIED:20171101T173337Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Writing
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P0DT0H30M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P0DT0H5M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:P0DT1H21M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:P0DT1H6M0S
+END:VALARM
+BEGIN:VALARM
+ACTION:NONE
+TRIGGER;VALUE=DATE-TIME:19760401T005545Z
+X-WR-ALARMUID:FFE1CEEB-3E39-400E-B69D-58E6E4C70D92
+UID:FFE1CEEB-3E39-400E-B69D-58E6E4C70D92
+ACKNOWLEDGED:20171025T220000Z
+END:VALARM
+END:VEVENT
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=4452) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20160823T230000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=4452) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20160823T230000Z;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=4862) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20130307T140000Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=4862) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20130307T140000Z' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4938) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4939) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4940) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4941) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4942) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4943) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4944) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4945) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4946) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4947) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4948) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=4949) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=5072) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20111121T225959Z;INTERVAL=1;BYDAY=MO,TU,WE,' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=5072) warning: gensub: third argument `FREQ=WEEKLY;WKST=MO;UNTIL=20111121T225959Z;INTERVAL=1;BYDAY=MO,TU,WE,' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=5072) warning: gensub: third argument `FREQ=WEEKLY;WKST=MO;UNTIL=20111121T225959Z;INTERVAL=1;BYDAY=MO,TU,WE,' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=5172) warning: gensub: third argument `RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20100527T140000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=5172) warning: gensub: third argument `FREQ=WEEKLY;WKST=SU;UNTIL=20100527T140000Z;BYDAY=TH' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5177) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:272: (FILENAME=basic.ics FNR=5372) warning: gensub: third argument `' treated as 1
+* Joan
+<2017-11-21 Tue 02:15-03:15>
+:PROPERTIES:
+:ID:       C296B72C-EFD8-441F-86FA-AA991C4C2603
+:STATUS:   CONFIRMED
+:END:
+
+awk: /Users/simon/bin/ical2org:284: (FILENAME=basic.ics FNR=5372) warning: gensub: third argument `' treated as 1
+This is an event reminder This is an event reminder
+** COMMENT original iCal entry
+
+BEGIN:VEVENT
+DTSTART:20171121T071500Z
+DTEND:20171121T081500Z
+UID:C296B72C-EFD8-441F-86FA-AA991C4C2603
+CREATED:20171010T191612Z
+DESCRIPTION:
+LAST-MODIFIED:20171101T173257Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Joan
+TRANSP:OPAQUE
+X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+(org-agenda-day-view)
+ACTION:DISPLAY
+DESCRIPTION:This is an event reminder
+TRIGGER:-P2D
+END:VALARM
+END:VEVENT
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5388) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5389) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5448) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5449) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5450) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5451) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5452) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5453) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=5465) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20121116T190000Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=5465) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20121116T190000Z' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5596) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5597) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5598) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5599) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5600) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=5601) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:119: (FILENAME=basic.ics FNR=5607) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=5879) warning: gensub: third argument `RRULE:FREQ=DAILY;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=5879) warning: gensub: third argument `FREQ=DAILY;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=5985) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170225T155959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=5985) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T155959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=5985) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T155959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6001) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170225T145959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6001) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T145959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6001) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T145959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6017) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170225T142959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6017) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T142959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6017) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170225T142959Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6033) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170221T232959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6033) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T232959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6033) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T232959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6065) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T235959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6065) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T235959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6065) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T235959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6097) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170221T002959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6097) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T002959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6097) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T002959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6129) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T232959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6129) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T232959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6129) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T232959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6161) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T225959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6161) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T225959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6161) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T225959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6177) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170221T015959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6177) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T015959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6177) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T015959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6193) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6193) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6193) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6209) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T175959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6209) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T175959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6209) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T175959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6226) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T172959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6226) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T172959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6226) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T172959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6243) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T171459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6243) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T171459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6243) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T171459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6260) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T165959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6260) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T165959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6260) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T165959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6276) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T162959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6276) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T162959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6276) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T162959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6292) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T161459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6292) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T161459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6292) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T161459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6308) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T154459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6308) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T154459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6308) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T154459Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6324) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T152959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6324) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T152959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6324) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T152959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6340) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T145959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6340) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T145959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6340) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T145959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6356) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T135959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6356) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T135959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6356) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T135959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6372) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T132959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6372) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T132959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6372) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T132959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6388) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170219T045959Z;INTERVAL=1;BYDAY=SU,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6388) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170219T045959Z;INTERVAL=1;BYDAY=SU,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6388) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170219T045959Z;INTERVAL=1;BYDAY=SU,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6404) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T045959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6404) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T045959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6404) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T045959Z;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6436) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6436) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6436) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170221T165959Z;INTERVAL=1;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6453) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T192959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6453) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T192959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6453) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T192959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6470) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T185959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6470) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T185959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6470) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T185959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6486) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T182959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6486) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T182959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6486) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T182959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6550) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20170220T195959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6550) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T195959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6550) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20170220T195959Z;INTERVAL=1;BYDAY=MO,WE,TH,FR,SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6622) warning: gensub: third argument `RRULE:FREQ=MONTHLY;UNTIL=20161201;BYMONTHDAY=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6622) warning: gensub: third argument `FREQ=MONTHLY;UNTIL=20161201;BYMONTHDAY=1' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6651) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6740) warning: gensub: third argument `RRULE:FREQ=MONTHLY;UNTIL=20160526;BYMONTHDAY=26' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6740) warning: gensub: third argument `FREQ=MONTHLY;UNTIL=20160526;BYMONTHDAY=26' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6769) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6770) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6771) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6792) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20160304;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6792) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20160304;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6813) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20160304T150000Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6813) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20160304T150000Z' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6833) warning: gensub: third argument `RRULE:FREQ=DAILY;COUNT=2' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6845) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6846) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6847) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6848) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6849) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6850) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6851) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=6852) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6863) warning: gensub: third argument `RRULE:FREQ=WEEKLY;COUNT=2;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6863) warning: gensub: third argument `FREQ=WEEKLY;COUNT=2;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6883) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20151122T045900Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6883) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151122T045900Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6883) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151122T045900Z;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6904) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20151124;INTERVAL=2' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6904) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151124;INTERVAL=2' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6904) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151124;INTERVAL=2' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6930) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20151115T045900Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6930) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151115T045900Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6930) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151115T045900Z;INTERVAL=1;BYDAY=SA' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6950) warning: gensub: third argument `RRULE:FREQ=WEEKLY;COUNT=2;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6950) warning: gensub: third argument `FREQ=WEEKLY;COUNT=2;INTERVAL=1' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6970) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20151114T045900Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=6970) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151114T045900Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6970) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20151114T045900Z;INTERVAL=1;BYDAY=FR' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=6995) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20150930T184500Z' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=6995) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20150930T184500Z' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=7007) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=7018) warning: gensub: third argument `RRULE:FREQ=MONTHLY;COUNT=2;BYMONTHDAY=21' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=7030) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:117: (FILENAME=basic.ics FNR=7031) warning: gensub: third argument `' treated as 1
+awk: /Users/simon/bin/ical2org:204: (FILENAME=basic.ics FNR=7042) warning: gensub: third argument `RRULE:FREQ=WEEKLY;UNTIL=20150715;INTERVAL=2;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:206: (FILENAME=basic.ics FNR=7042) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20150715;INTERVAL=2;BYDAY=TU' treated as 1
+awk: /Users/simon/bin/ical2org:208: (FILENAME=basic.ics FNR=7042) warning: gensub: third argument `FREQ=WEEKLY;UNTIL=20150715;INTERVAL=2;BYDAY=TU' treated as 1

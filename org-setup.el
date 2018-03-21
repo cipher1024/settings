@@ -1,0 +1,205 @@
+;; ;; ;; (unload-feature 'org-ref t)
+;; ;; ;; (unload-feature 'org-ref-url-utils t)
+;; ;; ;; (unload-feature 'doi-utils t)
+;; ;; ;; (unload-feature 'org-ref-utils t)
+;; ;; ;; (unload-feature 'org-ref-pdf t)
+(use-package org :pin gnu)
+(require 'org)
+(require 'latex)
+;; (require 'org-exp)
+;; org-icalendar
+;; (print "bar")
+;; ;; ;; (define-key global-map "\C-cl" 'org-store-link)
+;; ;; ;; (define-key global-map "\C-ca" 'org-agenda)
+;; ;; ;; (setq org-log-done t)
+;; ;; ;; ;; (org-babel-load-file "org-ref.org")
+;; ;; ;; (add-to-list 'package-archives
+;; ;; ;; 	     '("melpa" . "http://melpa.org/packages/") t)
+;; ;; ;; ;; (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+;; ;; ;; ;; (add-to-list 'org-latex-packages-alist '("" "amsthm"))
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+(add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'latex-math-mode)
+;; (remove-hook 'org-mode-hook 'latex-math-mode)
+
+;; ;; ;; If you use helm-bibtex as the citation key completion method you should set these variables too.
+
+;; ;; ;; (setq bibtex-completion-bibliography "~/Dropbox/bibliography/references.bib"
+;; ;; ;;       bibtex-completion-library-path "~/Dropbox/bibliography/bibtex-pdfs/"
+;; ;; ;;       bibtex-completion-notes-path "~/Dropbox/bibliography/helm-bibtex-notes/")
+
+;; ;; ;; open pdf with system pdf viewer (works on mac)
+;; ;; (setq bibtex-completion-pdf-open-function
+;; ;;   (lambda (fpath)
+;; ;;     (start-process " /Applications/Skim.app/Contents/MacOS/Skim" "--dired" fpath)))
+
+;; ;; ;; ;; alternative
+;; ;; ;; ;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+
+;; (setenv "PKG_CONFIG_PATH" "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
+
+(add-to-list 'org-modules 'org-mac-iCal)
+
+(add-hook 'org-agenda-cleanup-fancy-diary-hook
+          (lambda ()
+            (goto-char (point-min))
+            (save-excursion
+              (while (re-search-forward "^[a-z]" nil t)
+                (goto-char (match-beginning 0))
+                (insert "0:00-24:00 ")))
+            (while (re-search-forward "^ [a-z]" nil t)
+              (goto-char (match-beginning 0))
+              (save-excursion
+                (re-search-backward "^[0-9]+:[0-9]+-[0-9]+:[0-9]+ " nil t))
+              (insert (match-string 0)))))
+
+;; (defun bind-pdf-compile-key ()
+;;   (interactive)
+;;   (local-set-key (kbd "C-c C-c") 'org-latex-export-to-pdf))
+;; (local-unset-key "C-c C-c")
+
+;; (add-hook 'org-mode-hook 'bind-pdf-compile-key)
+;; (remove-hook 'org-mode-hook 'bind-pdf-compile-key)
+
+(use-package which-key
+	:ensure t
+	:config
+	(which-key-mode))
+
+(use-package org-ref
+	:ensure t
+	:after org)
+
+;; (require 'org-latex)
+(require 'org-ref)
+
+;; ;; (require 'nist-webbook)
+;; (require 'org-ref-scifinder)
+;; ;; (require 'org-ref-worldcat)
+(require 'ox-latex)
+;; ;; ;; (setq org-ref-completion-library 'org-ref-ivy-cite)
+;; ;; ;; (unload-feature 'org-ref t)
+
+;; see org-ref for use of these variables
+
+;; ;; open pdf with system pdf viewer (works on mac)
+(setq bibtex-completion-pdf-open-function
+  (lambda (fpath)
+    (start-process "open" "*open*" "open" fpath)))
+
+;; ;; ;; ;; alternative
+;; ;; ;; ;; (setq bibtex-completion-pdf-open-function 'org-open-file)
+
+;; ;; (setf (cdr (assoc 'org-mode bibtex-completion-format-citation-functions)) 'org-ref-format-citation)
+
+(setq org-latex-prefer-user-labels t)
+
+(setq reftex-default-bibliography '("/Users/simon/org-mode/thesis/ref.bib"))
+
+(setq org-ref-bibliography-notes "/Users/simon/Dropbox/bibliography/notes.org"
+      org-ref-default-bibliography '("/Users/simon/org-mode/thesis/ref.bib")
+      org-ref-pdf-directory "/Users/simon/Dropbox/bibliography/bibtex-pdfs/")
+
+(setq bibtex-completion-bibliography "/Users/simon/org-mode/thesis/ref.bib"
+      bibtex-completion-library-path "/Users/simon/Dropbox/bibliography/bibtex-pdfs/"
+      bibtex-completion-notes-path "/Users/simon/Dropbox/bibliography/helm-bibtex-notes")
+
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+(setq bibtex-autokey-year-length 4
+	bibtex-autokey-name-year-separator "-"
+	bibtex-autokey-year-title-separator "-"
+	bibtex-autokey-titleword-separator "-"
+	bibtex-autokey-titlewords 2
+	bibtex-autokey-titlewords-stretch 1
+	bibtex-autokey-titleword-length 5)
+
+(defun skim (&rest doc)
+  (shell-command
+   (format "/Applications/Skim.app/Contents/MacOS/Skim %s &"
+	   (string-join doc " "))))
+
+;; ;; (key-chord-define-global "kk" 'org-ref-cite-hydra/body)
+
+(require 'doi-utils)
+
+;; ;; (mapc 'print org-ref-cite-types)
+(require 'pdf-tools)
+(require 'org-ref-pdf)
+(require 'org-ref-url-utils)
+(require 'org-ref-bibtex)
+(require 'org-ref-latex)
+(require 'helm-bibtex)
+(require 'org-ref-arxiv)
+;; ;; (require 'org-ref-pubmed)
+;; ;; (require 'org-ref-isbn)
+;; ;; (require 'org-ref-wos)
+(require 'org-ref-scopus)
+(require 'x2bib)
+
+(doi-utils-def-bibtex-type
+ article ("journal-article" "article-journal" "paper-conference"
+	  "chapter" "report" "article" "inproceedings")
+ author title journal year volume number pages doi url)
+
+;; ;; (setq org-publish-project-alist
+;; ;;       '(("orgfiles"
+;; ;; 	 :base-directory "~/org-mode/thesis/"
+;; ;; 	 :base-extension "org"
+;; ;; 	 :publishing-directory "~/org-mode/thesis/pdf/"
+;; ;; 	 :publishing-function org-latex-publish-to-pdf
+;; ;; 	 :exclude
+;; ;; 	 :headline-levels 3
+;; ;; 	 :section-numbers nil
+;; ;; 	 :with-toc nil)))
+
+;; ;; (auto-fill-mode)
+
+;; ;; (defun my/org-ref-open-pdf-at-point ()
+;; ;;   "Open the pdf for bibtex key under point if it exists."
+;; ;;   (interactive)
+;; ;;   (print "here")
+;; ;;   (let* ((results (org-ref-get-bibtex-key-and-file))
+;; ;;          (key (car results))
+;; ;;          (pdf-file (funcall org-ref-get-pdf-filename-function key))
+;; ;; 	 (pdf-other (bibtex-completion-find-pdf key)))
+;; ;;     (print pdf-file)
+;; ;;     (print pdf-other)
+;; ;;     (cond ((file-exists-p pdf-file)
+;; ;;        (org-open-file pdf-file))
+;; ;;       (pdf-other
+;; ;;        (org-open-file pdf-other))
+;; ;;       (message "No PDF found for %s" key))))
+;; ;; (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+;; ;; (setq helm-bibtex-pdf-field "File")
+;; ;; (progn (unload-feature 'org-ref t) (eval-buffer))
+
+;; (defun concat-map (f xs)
+;;   (if (null xs)
+;;       nil
+;;       (append (apply f (list (car xs)))
+;; 	      (concat-map f (cdr xs)))))
+
+;; ;; #print axioms : display assumed axioms
+
+;; ;; (defun left-most-windows ()
+;; ;;   (mapcar 'symbol-value
+;; ;; 	  (seq-filter
+;; ;; 	   'boundp
+;; ;; 	   (list 'first-window 'second-window))))
+
+;; ;; (defun thesis-source-p (buffer)
+;; ;;   (when-let ((fn (buffer-file-name buffer)))
+;; ;;     (and (or (equal (file-name-extension fn) "org")
+;; ;; 	     (equal (file-name-extension fn) "bib"))
+;; ;; 	 (consp (cl-intersection (left-most-windows)
+;; ;; 				 (get-buffer-window-list buffer)
+;; ;; 				 :test 'equal)))))
+
+;; ;; (defun kill-thesis-sources ()
+;; ;;   (mapc 'kill-buffer
+;; ;; 	(seq-filter 'thesis-source-p (buffer-list))))
