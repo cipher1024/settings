@@ -198,13 +198,12 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 ;;   (mapc 'print (mapcar 'buffer-name (buffer-list)))
 ;;   t)
 
-
-
 (defun find-file-in (file window)
   (let ((curr (selected-window)))
     (select-window window)
-    (find-file file)
-    (select-window curr)))
+    (let ((r (find-file file)))
+      (select-window curr)
+      r)))
 
 (defun in-first-window (file)
     (find-file-in file (get-first-window)))
@@ -219,34 +218,38 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
   (not (string-match "/_target/" path)))
 ;; (seq-filter 'not-libp '("/foo/_target/" "bar" "/bar/_target/" "foo"))
 
+(defun lean-serverp (path)
+  (string-match "*lean-server std" (buffer-name path)))
+
 (defun lean-select (prj)
   (let* ((path (cdr (assoc prj lean-projects)))
 	 (ls (last-n-mod-sources path 2))
 	 (shell-name (concat "sh: " prj)))
+    (mapc 'kill-buffer
+	  (seq-filter 'lean-serverp (buffer-list)))
     (register-project prj path (list shell-name))
-    (print path)
     (find-file-in (car ls) (get-first-window))
     ;; (find-file-in (cadr ls) (get-second-window))
-    (select-window (get-bottom-right-panel))
+    ;; (select-window (get-bottom-right-panel))
     (setq default-directory path)
     (select-window first-window)
     (enable-info-buffer lean-show-goal-buffer-name (get-top-right-panel)
 			(lean-toggle-show-goal))
-    (enable-info-buffer lean-next-error-buffer-name (get-bottom-right-panel)
-			(lean-toggle-next-error))
-    (enable-info-buffer flycheck-error-list-buffer (get-bottom-right-panel)
-			(flycheck-mode)
-			(flycheck-list-errors))
+    ;; (enable-info-buffer lean-next-error-buffer-name (get-bottom-right-panel)
+    ;; 			(lean-toggle-next-error))
+    ;; (enable-info-buffer flycheck-error-list-buffer (get-bottom-right-panel)
+    ;; 			(flycheck-mode)
+    ;; 			(flycheck-list-errors))
     (setq current-directory path)
     (pe/start-follow-current)
-    (let ((sh (get-buffer shell-name)))
-      (if (not sh)
-	  (progn
-	    (select-window (get-bottom-right-panel))
-	    (set-buffer (eshell))
-	    (rename-buffer shell-name))
-	(progn
-	  (set-window-buffer (get-bottom-right-panel) sh))))
+    ;; (let ((sh (get-buffer shell-name)))
+    ;;   (if (not sh)
+    ;; 	  (progn
+    ;; 	    (select-window (get-bottom-right-panel))
+    ;; 	    (set-buffer (eshell))
+    ;; 	    (rename-buffer shell-name))
+    ;; 	(progn
+    ;; 	  (set-window-buffer (get-bottom-right-panel) sh))))
     (close-other-projects)
     ) )
 
@@ -312,18 +315,17 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 ;; (setq options (list "apple" "orange"))
 ;; (flycheck-error-list-mode)
 ;; (foo options)
-(print "foo")
-(defun select-lean-project ()
-  (let* ((prj (x-popup-menu
-	       (list '(50 50) (selected-frame)) ;; where to popup
-	       (list "Please choose"            ;; the menu itself
-		     (cons "" lean-projects))))
-	 (last-open (last-n-mod-sources prj 3)))
-    (progn
-      (setq default-directory prj)
-      ;; (find-file (file-name-as-directory prj))
-      (mapc 'find-file last-open)
-      (buffer-menu))))
+;; (defun select-lean-project ()
+;;   (let* ((prj (x-popup-menu
+;; 	       (list '(50 50) (selected-frame)) ;; where to popup
+;; 	       (list "Please choose"            ;; the menu itself
+;; 		     (cons "" lean-projects))))
+;; 	 (last-open (last-n-mod-sources prj 3)))
+;;     (progn
+;;       (setq default-directory prj)
+;;       ;; (find-file (file-name-as-directory prj))
+;;       (mapc 'find-file last-open)
+;;       (buffer-menu))))
 ; (select-lean-project)
 ; (leanpkg-find-dir-safe)
 ; (leanpkg-find-path-file)
@@ -385,6 +387,16 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
   (let ((dir (lean-leanpkg-find-dir-safe)))
     (find-file (f-join dir "leanpkg.toml"))))
 
+(defun lean-leanpkg-edit-version ()
+  (interactive)
+  (let ((dir (lean-leanpkg-find-dir-safe)))
+    (find-file (f-join dir "lean_version"))))
+
+(defun lean-insert-hash ()
+  (interactive)
+  (let ((default-directory "~/lean/lean-master"))
+    (call-process "git" nil (current-buffer) t "rev-parse" "HEAD")))
+
 (defun lean-leanpkg-dev-switch ()
   (interactive)
   (let* ((dir (lean-leanpkg-find-dir-safe))
@@ -411,7 +423,12 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 	  (find-file leanpkg-dev)))
       (error "no leanpkg.toml found"))))
 
-(defun lean-leanpkg-run-quiet (cmd &optional restart-lean-server)
+(defun lean-quiet-sentinel (pcs _e)
+  (setq lean-leanpkg-running nil)
+  (with-current-buffer (process-buffer pcs)
+    (insert "; (done)\n")))
+
+(defun lean-leanpkg-run-quiet (cmd)
   "Call `leanpkg $cmd`"
   (let ((dir (file-name-as-directory (lean-leanpkg-find-dir-safe)))
         (orig-buf (current-buffer)))
@@ -423,25 +440,14 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
       (insert (format "> leanpkg %s\n" cmd))
       (setq lean-leanpkg-running t)
       (let* ((default-directory dir)
-             (out-buf (current-buffer))
              (proc (make-process :name "leanpkg"
 				 :buffer (current-buffer)
 				 :filter 'keep-errors-only
+				 :sentinel 'lean-quiet-sentinel
                                  :command (list (lean-leanpkg-executable) cmd))))
-        (set-process-sentinel
-         proc (lambda (_p _e)
-                (setq lean-leanpkg-running nil)
-		(if restart-lean-server
-		    (progn
-		      (with-current-buffer out-buf
-			(insert "; restarting lean server\n"))
-		      (with-current-buffer orig-buf
-			(lean-server-restart)))
-		  (progn
-		    (with-current-buffer out-buf
-			(insert "; (done)\n"))))))))))
+        t ))))
 
-(defun my-lean-leanpkg-run (prog exe cmd &optional restart-lean-server)
+(defun my-lean-leanpkg-run (prog exe cmd)
   "Call `leanpkg $cmd`"
   (let ((dir (file-name-as-directory (lean-leanpkg-find-dir-safe)))
         (orig-buf (current-buffer))
@@ -454,32 +460,22 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
       (insert (format "> %s %s\n" prog cmd))
       (setq lean-leanpkg-running t)
       (let* ((default-directory dir)
-             (out-buf (current-buffer))
              (proc (make-process :name prog
+				 :sentinel 'lean-quiet-sentinel
 				 :buffer (current-buffer)
                                  :command (cons exe cmd))))
-        (set-process-sentinel
-         proc (lambda (_p _e)
-                (setq lean-leanpkg-running nil)
-		(if restart-lean-server
-		    (progn
-		      (with-current-buffer out-buf
-			(insert "; restarting lean server\n"))
-		      (with-current-buffer orig-buf
-			(lean-server-restart)))
-		  (progn
-		    (with-current-buffer out-buf
-			(insert "; (done)\n"))))))))))
+	t))))
 
 (defun lean-leanpkg-profile ()
   (interactive)
-  (my-lean-leanpkg-run "leanpkg" (lean-leanpkg-executable)
+  (my-lean-leanpkg-run "leanpkg"
+		       (lean-leanpkg-executable)
 		       (list "build" "--" "--profile" "--test-suite")))
 
 (defun lean-leanpkg-profile-file ()
   (interactive)
   (my-lean-leanpkg-run "lean" (lean-get-executable lean-executable-name)
-		       (list (buffer-file-name) "--profile")))
+		       (list (buffer-file-name) "--profile" "--test-suite")))
 
 (defun lean-leanpkg-build-quiet ()
   "Call leanpkg build (quiet)"

@@ -22,6 +22,10 @@
 (add-hook 'org-mode-hook 'latex-math-mode)
 ;; (remove-hook 'org-mode-hook 'latex-math-mode)
 
+(defun my-org-mode-hook ()
+  (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t))
+(add-hook 'org-mode-hook #'my-org-mode-hook)
+
 ;; ;; ;; If you use helm-bibtex as the citation key completion method you should set these variables too.
 
 ;; ;; ;; (setq bibtex-completion-bibliography "~/Dropbox/bibliography/references.bib"
@@ -80,6 +84,16 @@
 ;; ;; ;; (setq org-ref-completion-library 'org-ref-ivy-cite)
 ;; ;; ;; (unload-feature 'org-ref t)
 
+
+(add-to-list 'org-latex-classes
+             '("thesis"
+               "\\documentclass[12pt]{report}"
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+	       ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	       ))
 ;; see org-ref for use of these variables
 
 ;; ;; open pdf with system pdf viewer (works on mac)
@@ -203,3 +217,71 @@
 ;; ;; (defun kill-thesis-sources ()
 ;; ;;   (mapc 'kill-buffer
 ;; ;; 	(seq-filter 'thesis-source-p (buffer-list))))
+
+
+;;   "User-defined entities used in Org-mode to produce special characters.
+;; Each entry in this list is a list of strings.  It associates the name
+;; of the entity that can be inserted into an Org file as \\name with the
+;; appropriate replacements for the different export backends.  The order
+;; of the fields is the following
+
+;; name                 As a string, without the leading backslash
+;; LaTeX replacement    In ready LaTeX, no further processing will take place
+;; LaTeX mathp          A Boolean, either t or nil.  t if this entity needs
+;;                      to be in math mode.
+;; HTML replacement     In ready HTML, no further processing will take place.
+;;                      Usually this will be an &...; entity.
+;; ASCII replacement    Plain ASCII, no extensions.  Symbols that cannot be
+;;                      represented will be left as they are, but see the.
+;;                      variable `org-entities-ascii-explanatory'.
+;; Latin1 replacement   Use the special characters available in latin1.
+;; utf-8 replacement    Use the special characters available in utf-8.
+
+;; If you define new entities here that require specific LaTeX
+;; packages to be loaded, add these packages to `org-latex-packages-alist'."
+;;   :group 'org-entities
+;;   :version "24.1"
+;;   :type '(repeat
+;; 	  (list
+;; 	   (string :tag "name  ")
+;; 	   (string :tag "LaTeX ")
+;; 	   (boolean :tag "Require LaTeX math?")
+;; 	   (string :tag "HTML  ")
+;; 	   (string :tag "ASCII ")
+;; 	   (string :tag "Latin1")
+;; 	   (string :tag "utf-8 "))))
+(defconst org-entities-user
+  '( ("Diamond" "\\Diamond" t "&Diamond" "Diamond" "Diamond" "⃟")
+     ("Box" "\\Box " t "&Box" "Box" "Box" "☐")
+     ("tlaleadsto" "\\tlaleadsto" t "&~>" "~>" "~>" "⇝")
+     ("mapsto" "\\mapsto" t "&|->" "|->" "|->" "↦")
+     ("nat" "\\nat" t "&nat" "nat" "nat" "ℕ")
+     ("forall2" "\\A" t "&forall;" "[for all]" "[for all]" "∀")
+     ("exist2" "\\E" t "&exist;" "[there exists]" "[there exists]" "∃")
+     ("exist3" "\\EE" t "&exist;" "[there exists]" "[there exists]" "*∃*")
+     ("vdash" "\\vdash " t "&vdash;" "[vdash]" "[vdash]" "⊢")
+     ("models" "\\models " t "&#8872;" "[models]" "[models]" "⊨")
+     ("monus" "\\monus " t "&#2238;" "[monus]" "[monus]" "∸")
+     ;; ("OneSpace" "\\1" t "&Box" "Box" "" "")
+     ) )
+
+(make-local-variable 'org-root-doc)
+
+(defun org-latex-export-parent-to-latex ()
+  (with-current-buffer (or (get-buffer org-root-doc)
+			   (find-file-noselect org-root-doc))
+    (org-latex-export-to-latex)))
+
+(defun latexmk-buffer-name ()
+  (let* ((fn (buffer-file-name (current-buffer))))
+    (format "*latexmk %s*" fn)))
+(defun kill-latexmk ()
+  (kill-buffer (latexmk-buffer-name)))
+
+(defun launch-latexmk ()
+  (let ((buf-name (latexmk-buffer-name)))
+    (when (not (get-buffer buf-name))
+      (let ((buf (get-buffer-create buf-name)))
+	(start-process "latexmk" buf
+		       "latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none" "-silent")
+	(add-hook 'kill-buffer-hook 'kill-latexmk t t)))))

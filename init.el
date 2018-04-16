@@ -21,6 +21,9 @@
 	(package-install 'use-package))
 (setq load-path (cons "~/.emacs.d/lisp/" load-path))
 
+;; org-latex-packages-alist
+
+
 ;; (load-file "~/.emacs.d/lisp/cedet-1.0.1/common/cedet.el")
 ;; (global-ede-mode 1)                      ; Enable the Project management system
 ;; (semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion
@@ -42,6 +45,7 @@
 (load "~/.emacs.d/org-setup.el")
 (load "~/.emacs.d/babel-setup.el")
 (load "~/.emacs.d/haskell-setup.el")
+(load "~/.emacs.d/ibuffer-setup.el")
 
 ;; (desktop-save-mode 10)
 
@@ -75,12 +79,6 @@
 ;; (eval-after-load "enriched"
 ;;   '(defun enriched-decode-display-prop (start end &optional param)
 ;;      (list start end)))
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(autoload 'ibuffer "ibuffer" "List buffers." t)
-(require 'ibuf-ext)
-(add-to-list 'ibuffer-never-show-predicates "^\\*")
-(add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode 1)))
 
 (show-paren-mode 1)
 (setq paren-match-face 'highlight)
