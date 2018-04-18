@@ -214,43 +214,54 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 (defun in-top-right-panel (file)
     (find-file-in file (get-top-right-panel)))
 
-(defun not-libp (path)
-  (not (string-match "/_target/" path)))
+(defun not-libp (lib-pat path)
+  (not (string-match lib-pat path)))
 ;; (seq-filter 'not-libp '("/foo/_target/" "bar" "/bar/_target/" "foo"))
 
 (defun lean-serverp (path)
   (string-match "*lean-server std" (buffer-name path)))
 
 (defun lean-select (prj)
-  (let* ((path (cdr (assoc prj lean-projects)))
-	 (ls (last-n-mod-sources path 2))
-	 (shell-name (concat "sh: " prj)))
-    (mapc 'kill-buffer
-	  (seq-filter 'lean-serverp (buffer-list)))
-    (register-project prj path (list shell-name))
-    (find-file-in (car ls) (get-first-window))
-    ;; (find-file-in (cadr ls) (get-second-window))
-    ;; (select-window (get-bottom-right-panel))
-    (setq default-directory path)
-    (select-window first-window)
-    (enable-info-buffer lean-show-goal-buffer-name (get-top-right-panel)
-			(lean-toggle-show-goal))
-    ;; (enable-info-buffer lean-next-error-buffer-name (get-bottom-right-panel)
-    ;; 			(lean-toggle-next-error))
-    ;; (enable-info-buffer flycheck-error-list-buffer (get-bottom-right-panel)
-    ;; 			(flycheck-mode)
-    ;; 			(flycheck-list-errors))
-    (setq current-directory path)
-    (pe/start-follow-current)
-    ;; (let ((sh (get-buffer shell-name)))
-    ;;   (if (not sh)
-    ;; 	  (progn
-    ;; 	    (select-window (get-bottom-right-panel))
-    ;; 	    (set-buffer (eshell))
-    ;; 	    (rename-buffer shell-name))
-    ;; 	(progn
-    ;; 	  (set-window-buffer (get-bottom-right-panel) sh))))
-    (close-other-projects)
+  (select-project-source (cdr (assoc prj lean-projects)) "\\.lean" "/_target/"))
+
+(defun lean-kill-servers ()
+  (interactive)
+  (mapc 'kill-buffer
+	(seq-filter 'lean-serverp (buffer-list))))
+
+(defun select-project-source (path ext lib-pat)
+  (let* ((ls (last-n-mod-sources path ext lib-pat 2))
+	 (d (print path))
+	 (d (print ls))
+	 (buf (find-file (car ls))))
+	 ;; (shell-name (concat "sh: " prj)))
+    ;; ;; (register-project prj path (list shell-name))
+    ;; (find-file-in (car ls) (get-first-window))
+
+    (find-file-other-window (concat path "/todo.org"))
+    (set-buffer buf)
+    ;; ;; (find-file-in (cadr ls) (get-second-window))
+    ;; ;; (select-window (get-bottom-right-panel))
+    ;; (setq default-directory path)
+    ;; (select-window first-window)
+    ;; (enable-info-buffer lean-show-goal-buffer-name (get-top-right-panel)
+    ;; 			(lean-toggle-show-goal))
+    ;; ;; (enable-info-buffer lean-next-error-buffer-name (get-bottom-right-panel)
+    ;; ;; 			(lean-toggle-next-error))
+    ;; ;; (enable-info-buffer flycheck-error-list-buffer (get-bottom-right-panel)
+    ;; ;; 			(flycheck-mode)
+    ;; ;; 			(flycheck-list-errors))
+    ;; (setq current-directory path)
+    ;; (pe/start-follow-current)
+    ;; ;; (let ((sh (get-buffer shell-name)))
+    ;; ;;   (if (not sh)
+    ;; ;; 	  (progn
+    ;; ;; 	    (select-window (get-bottom-right-panel))
+    ;; ;; 	    (set-buffer (eshell))
+    ;; ;; 	    (rename-buffer shell-name))
+    ;; ;; 	(progn
+    ;; ;; 	  (set-window-buffer (get-bottom-right-panel) sh))))
+    ;; (close-other-projects)
     ) )
 
 (defun lean-source-p (buffer)
@@ -285,6 +296,9 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 (defun modification-time (fp)
   (cons (nth 5 (file-attributes fp)) fp))
 
+(defun access-time (fp)
+  (nth 4 (file-attributes fp)))
+
 (defun compare-mod-time (x y)
   (version-list-< (car y) (car x)))
 
@@ -296,12 +310,21 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 ; (take 3 (list 1 2))
 ; (take 3 (list 1 2 3 4 5 6))
 
-(defun last-n-mod-sources (dir n)
-  (let* ((mod-files (mapcar 'modification-time (directory-files-recursively dir "\\.lean")))
+(defun last-n-mod-sources (dir ext lib-pat n)
+  (let* ((mod-files (mapcar 'modification-time (directory-files-recursively dir ext)))
 	 (sorted-files (sort mod-files 'compare-mod-time)))
-    (take n (seq-filter 'not-libp (mapcar 'cdr sorted-files)))))
+    (take n (seq-filter (-cut not-libp lib-pat <>) (mapcar 'cdr sorted-files)))))
 
-; (take (list 1 2 3) 2)
+(defun sort-on (ls key-fn cmp)
+  (let ((keyed (mapcar (lambda (x) (cons (funcall key-fn x) x)) ls)))
+    (mapcar 'cdr (sort keyed cmp))))
+
+(defun last-accessed-sources (dir ext lib-pat)
+  (let* ((files (directory-files-recursively dir ext))
+	 (sorted-files (sort-on files 'access-time 'compare-mod-time)))
+    (seq-filter (-cut not-libp lib-pat <>) sorted-files)))
+
+; (nth 1 (list 1 2 3))
 
 ; (version-list-> (list 1) (list 2))
 ; (compare-mod-time (cons (list 1 2) 3) (cons (list 2 3) 5))

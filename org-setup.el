@@ -1,9 +1,23 @@
+
 ;; ;; ;; (unload-feature 'org-ref t)
 ;; ;; ;; (unload-feature 'org-ref-url-utils t)
 ;; ;; ;; (unload-feature 'doi-utils t)
 ;; ;; ;; (unload-feature 'org-ref-utils t)
 ;; ;; ;; (unload-feature 'org-ref-pdf t)
-(use-package org :pin gnu)
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+(use-package org
+  :ensure t)
+(use-package latex)
+(package-install 'org)
+(unless (package-installed-p 'cdlatex)
+	(package-refresh-contents)
+	(package-install 'cdlatex))
+
 (require 'org)
 (require 'latex)
 ;; (require 'org-exp)
@@ -266,6 +280,14 @@
      ) )
 
 (make-local-variable 'org-root-doc)
+(defun org-subdocument-of (root)
+  (setq default-directory
+	(file-name-directory
+	 (directory-file-name
+	  (file-name-directory
+	   (buffer-file-name (current-buffer))))))
+  (setq org-root-doc root)
+  (add-hook 'after-save-hook 'org-latex-export-parent-to-latex t t))
 
 (defun org-latex-export-parent-to-latex ()
   (with-current-buffer (or (get-buffer org-root-doc)

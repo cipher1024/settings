@@ -1,26 +1,4 @@
-
-(require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-archives
-   (quote
-    (("melpa" . "http://melpa.org/packages/")
-     ("org" . "http://orgmode.org/elpa/")
-     ("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa-stable" . "http://stable.melpa.org/packages/")))))
-; package-archives
-(package-initialize)
-
-(unless (package-installed-p 'use-packhaage)
-	(package-refresh-contents)
-	(package-install 'use-package))
-(setq load-path (cons "~/.emacs.d/lisp/" load-path))
-
+(load "~/.emacs.d/package-setup.el")
 ;; org-latex-packages-alist
 
 
@@ -31,11 +9,15 @@
 
 ;; ;; (setq load-path (cons "~/.emacs.d/lisp/ecb" load-path))
 ;; ;; (require 'ecb)
+
+(load "~/.emacs.d/my-project-list.el")
+
 (load "~/.emacs.d/project.el")
 (load "~/.emacs.d/lean-setup.el")
 (load "~/.emacs.d/schedule.el")
 ;; (load "~/.emacs.d/c-ide-setup.el")
 ;; (load "~/.emacs.d/wunderlist-setup.el")
+
 
 ;; (require 'tla-mode)
 ;; (require 'neotree)
@@ -46,6 +28,7 @@
 (load "~/.emacs.d/babel-setup.el")
 (load "~/.emacs.d/haskell-setup.el")
 (load "~/.emacs.d/ibuffer-setup.el")
+(load "~/.emacs.d/ivy-setup.el")
 
 ;; (desktop-save-mode 10)
 
