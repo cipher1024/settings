@@ -325,7 +325,7 @@
 (defun org-install-stylesheets ()
   (add-hook 'after-save-hook
 	    (lambda ()
-	      (select-root-directory)
+	      (select-root-directory org-root-doc)
 	      (start-process "install-stylesheets-macosx.hs"
 			     (get-buffer-create "*install-stylesheets-macosx*")
 			     "stack" "install-stylesheets-macosx.hs"))
