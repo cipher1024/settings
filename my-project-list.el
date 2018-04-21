@@ -1,64 +1,26 @@
 (require 'ido)
 (require 'helm-multi-match)
-;; helm-make-source
-;; 'lean-mode
-;; helm-lean
-;; helm-lean-definition
-;; helm
-
-;; (insert (prin1-to-string  '(1 2 3)))
-
-;; (defun helm-project-candidates (buf)
-;;   (with-helm-current-buffer
-;;     (let ((ls (list :query helm-pattern))
-;; 	  (c (plist-get c :source)))
-;;       (with-current-buffer buf
-;; 	(insert "a")
-;; 	;; (insert (prin1-to-string  ls))
-;; 	;; (insert (prin1-to-string  c))
-;; 	))))
-
-;;     ;; (let* ((response (lean-server-send-synchronous-command 'search (list :query helm-pattern)))
-;;     ;;        (results (plist-get response :results))
-;;     ;;        (results (-filter (lambda (c) (plist-get c :source)) results))
-;;     ;;        (candidates (-map 'helm-lean-definitions-format-candidate results)))
-;;     ;;   candidates)))
-
-;; (defun helm-project-action (c buf)
-;;   (with-helm-current-buffer
-;;     (let ((src (plist-get c :source)))
-;;       (with-current-buffer buf
-;; 	(insert "action\n")
-;; 	(insert (prin1-to-string src))))))
-
-;; (helm-project)
-
-;; (stringp (helm
-;; 	  :sources (helm-build-sync-source "test"
-;; 		     :candidates '(a b c d e))
-;; 	  :buffer "*helm sync source*"))
-
-;; (defun helm-project ()
-;;   "Open a 'helm' interface for searching Lean definitions."
-;;   (interactive)
-;;   (require 'helm)
-;;   (let ((buf (get-buffer-create "*leanpkg*")))
-;;     (switch-to-buffer-other-window buf)
-;;     (helm :sources (helm-make-source "helm-source-lean-definitions"
-;; 		     :requires-pattern t
-;; 		     :candidates (lambda () helm-project-candidates buf)
-;; 		     :volatile t
-;; 		     :match 'identity
-;; 		     :action '(("Go to" . (-cut helm-project-action <> buf))))
-;; 	  :buffer "*helm Lean definitions*")))
-
 
 (defun thesis-menu ()
-  (find-file "~/org-mode/thesis/chapters/soundness.org")
+  (select-project "~/org-mode/thesis/" "\\.org\\|\\.sty\\|\\.hs" "/.stack-work/")
+  ;; (find-file "~/org-mode/thesis/chapters/soundness.org")
   ;; (register-project "thesis" "~/org-mode/thesis/")
   ;; (kill-lean-sources)
   ;; (close-other-projects)
   )
+
+(defun find-root-dir-in (dir root-file)
+  (when dir
+    (or (find-root-dir-in (f-parent dir) root-file)
+        (when (f-exists? (f-join dir root-file)) dir))))
+
+(defun find-root-dir (root-file)
+  (and (buffer-file-name)
+       (find-root-dir-in (f-dirname (buffer-file-name)) root-file)))
+
+(defun find-root-dir-safe (root-file)
+  (or (find-root-dir root-file)
+      (error (format "cannot find %s for %s" root-file (buffer-file-name)))))
 
 (defun select-project (path ext lib-pat)
   (let* ((buf-name "*project list*")
@@ -87,12 +49,18 @@
 			  (cons "lean-prover" "~/lean/lean-master/")
 			  (cons "mathlib" "~/lean/mathlib/")
 			  (cons "regular" "~/lean/regular/")
-			  (cons "differential-topology" "~/lean/lean-differential-topology/"))
+			  (cons "scratch" "~/lean/draft/")
+			  (cons "differential-topology" "~/lean/lean-differential-topology/")
+			  (cons "massot-scratch-pad" "~/lean/lean-scratchpad/"))
 		    (lambda (x) (access-time (cdr x)))
 		    'compare-mod-time)
 		   )))
     (when dir
       (select-project dir "\\.lean" "/_target/"))))
+
+
+(defun emacs-menu ()
+  (select-project "~/.emacs.d/" "\\.el" '("/.cask/" "/lisp/" "/cask/" "/elpa/")))
 
 (defun haskell-menu ()
   (let ((dir (menu "select Haskell project:"
@@ -105,9 +73,11 @@
       (select-project dir "\\.hs" "/.stack-work/"))))
 
 (defun notes-menu ()
-  (let ((note (menu "select Note:"
-		    (list '("more" . "more.org")
+  (let ((note (menu "select note:"
+		    (list '("daily schedule" . "daily-schedule.org")
+		          '("more" . "more.org")
 			  '("thoughts" . "thoughts.org")
+			  '("tasks" . "tasks.org")
 			  '("today" . "today4.org")
 			  '("writing routine" . "writing-routine.org")))))
     (when note
@@ -118,19 +88,18 @@
       '(("thesis" . thesis-menu)
 	("lean" . lean-menu)
 	("haskell" . haskell-menu)
+	("emacs" . emacs-menu)
 	("notes" . notes-menu)))
 
 (defun menu (label alist)
-  (let ((selection (helm
-		    :sources (helm-build-sync-source label
-			       :candidates (mapcar 'car alist))
-		    :buffer buf-name)))
+  (let* ((buf-name "*project list*")
+	 (selection (helm
+		     :sources (helm-build-sync-source label
+				:candidates (mapcar 'car alist))
+		     :buffer buf-name)))
     (when selection
       (cdr (assoc selection
 		  alist)))))
-;; (defun menu (label alist)
-;;   (cdr (assoc (ido-completing-read label (mapcar 'car alist))
-;; 			      alist)))
 
 (defun my-project-list ()
   "Prompt user to pick a choice from a list."

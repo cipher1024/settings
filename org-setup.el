@@ -33,6 +33,7 @@
 ;; ;; ;; ;; (add-to-list 'org-latex-packages-alist '("" "amsthm"))
 (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
 (add-hook 'org-mode-hook 'auto-fill-mode)
+(add-hook 'org-mode-hook 'set-truncate-lines)
 (add-hook 'org-mode-hook 'latex-math-mode)
 ;; (remove-hook 'org-mode-hook 'latex-math-mode)
 
@@ -279,15 +280,62 @@
      ;; ("OneSpace" "\\1" t "&Box" "Box" "" "")
      ) )
 
+;; lpp/invoke-pdf-latex-command
+
 (make-local-variable 'org-root-doc)
+
+(defun select-root-directory (root)
+  (setq default-directory (find-root-dir-safe root)))
+
+(defun org-export-and-compile ()
+  (org-latex-export-to-latex)
+  (latex-preview-pane-update))
+
+(defun org-preview-pane-mode ()
+  (latex-preview-pane-mode)
+  (setq-local latex-preview-pane-multifile-mode 'prompt)
+  (setq-local lpp-TeX-master
+	      (replace-regexp-in-string "\.org$" ".tex"
+					(buffer-file-name)))
+  (setq-local pdf-latex-command "latexmk")
+  (remove-hook 'after-save-hook 'latex-preview-pane-update)
+  (add-hook 'after-save-hook 'org-export-and-compile t t))
+
 (defun org-subdocument-of (root)
-  (setq default-directory
-	(file-name-directory
-	 (directory-file-name
-	  (file-name-directory
-	   (buffer-file-name (current-buffer))))))
+  (select-root-directory root)
+  ;; (latex-preview-update)
+  ;; (org-preview-pane-mode root)
   (setq org-root-doc root)
-  (add-hook 'after-save-hook 'org-latex-export-parent-to-latex t t))
+  ;; (remove-hook 'after-save-hook 'latex-preview-pane-update)
+  (add-hook 'after-save-hook 'org-latex-export-parent-to-latex t t)
+  ;; (add-hook 'after-save-hook 'latex-preview-pane-update nil 'make-it-local)
+
+  ;; (add-hook 'after-save-hook 'touch-file t t)
+  (org-preview-latex-fragment))
+
+(defun touch-file ()
+  "Force modification of current file, unless already modified."
+  (interactive)
+  (if (and (verify-visited-file-modtime (current-buffer))
+           (not (buffer-modified-p)))
+      (progn
+	(shell-command (concat "touch " (shell-quote-argument (buffer-file-name))))
+	(clear-visited-file-modtime))))
+
+(defun org-install-stylesheets ()
+  (add-hook 'after-save-hook
+	    (lambda ()
+	      (select-root-directory)
+	      (start-process "install-stylesheets-macosx.hs"
+			     (get-buffer-create "*install-stylesheets-macosx*")
+			     "stack" "install-stylesheets-macosx.hs"))
+	    nil t))
+
+;; (defun org-latex-export-parent-to-latex ()
+;;   (with-current-buffer (or (get-buffer org-root-doc)
+;; 			   (find-file-noselect org-root-doc))
+;;     (org-latex-export-to-latex))
+;;   (latex-preview-pane-update))
 
 (defun org-latex-export-parent-to-latex ()
   (with-current-buffer (or (get-buffer org-root-doc)

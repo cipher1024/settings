@@ -9,8 +9,9 @@
 (require 'flycheck-haskell)
 (require 'flycheck-ghcmod)
 ;; (require 'hare)
-(require 'ghc-helm)
+(require 'helm-ghc)
 (require 'scion)
+(require 'hindent)
 
 (defun launch-latexmk ()
   (let ((buf-name (latexmk-buffer-name)))
@@ -29,6 +30,14 @@
 		       "stack" "install")
 	(switch-to-buffer-other-window buf)))))
 
+(defun stack-edit-stack-yaml ()
+  (interactive)
+  (find-file (f-join (find-root-dir-safe "stack.yaml") "stack.yaml")))
+
+(defun stack-edit-package-yaml ()
+  (interactive)
+  (find-file (f-join (find-root-dir-safe "package.yaml") "package.yaml")))
+
 ;; (add-hook 'haskell-mode-hook (lambda () (ghc-init) (hare-init)))
 (add-hook 'haskell-mode-hook 'flycheck-mode)
 ;; (add-hook 'haskell-mode-hook 'stack-mode)
@@ -37,3 +46,6 @@
 	  (lambda () (local-set-key (kbd "C-c C-r") 'intero-restart)))
 (intero-global-mode 1)
 ;; (remove-hook 'haskell-mode-hook 'structured-haskell-mode)
+
+
+(add-hook 'haskell-mode-hook #'hindent-mode)

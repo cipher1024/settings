@@ -215,7 +215,9 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
     (find-file-in file (get-top-right-panel)))
 
 (defun not-libp (lib-pat path)
-  (not (string-match lib-pat path)))
+  (if (listp lib-pat)
+      (null (seq-filter (lambda (p) (string-match p path)) lib-pat))
+      (not (string-match lib-pat path))))
 ;; (seq-filter 'not-libp '("/foo/_target/" "bar" "/bar/_target/" "foo"))
 
 (defun lean-serverp (path)
@@ -460,7 +462,7 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
       (erase-buffer)
       (switch-to-buffer-other-window (current-buffer))
       (redisplay)
-      (insert (format "> leanpkg %s\n" cmd))
+      (insert (format "> %s\n> leanpkg %s\n" dir cmd))
       (setq lean-leanpkg-running t)
       (let* ((default-directory dir)
              (proc (make-process :name "leanpkg"
