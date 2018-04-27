@@ -118,3 +118,12 @@
   (register-project "emacs-config" "~/.emacs.d" '())
   (find-file-in "~/.emacs.d/init.el" (get-first-window))
   (close-other-projects))
+
+(defun pe/project-root-function-with-lean-haskell-git ()
+  (or (find-root-dir "stack.yaml")
+      (find-root-dir "package.yaml")
+      (find-root-dir "leanpkg.path")
+      (find-root-dir "leanpkg.toml")
+      (pe/project-root-function-default)))
+
+;; (setq pe/project-root-function 'pe/project-root-function-with-lean-haskell-git)

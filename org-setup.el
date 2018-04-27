@@ -353,5 +353,9 @@
     (when (not (get-buffer buf-name))
       (let ((buf (get-buffer-create buf-name)))
 	(start-process "latexmk" buf
-		       "latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none" "-silent")
+		       "latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none")
+	;; "-silent")
 	(add-hook 'kill-buffer-hook 'kill-latexmk t t)))))
+
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cc" 'org-capture)

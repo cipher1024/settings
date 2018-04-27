@@ -1,1 +1,1 @@
-(add-hook 'emacs-lisp-mode 'set-truncate-lines t)
+(add-hook 'emacs-lisp-mode 'set-truncate-lines t t)

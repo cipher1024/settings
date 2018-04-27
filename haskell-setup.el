@@ -13,6 +13,11 @@
 (require 'scion)
 (require 'hindent)
 
+(require 'hs-lint)
+(defun my-haskell-mode-hook ()
+    (local-set-key "\C-cl" 'hs-lint))
+(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
+
 (defun launch-latexmk ()
   (let ((buf-name (latexmk-buffer-name)))
     (when (not (get-buffer buf-name))
@@ -38,10 +43,15 @@
   (interactive)
   (find-file (f-join (find-root-dir-safe "package.yaml") "package.yaml")))
 
+(defun travis-edit-config ()
+  (interactive)
+  (find-file (f-join (find-root-dir-safe ".travis.yml") ".travis.yml")))
+
 ;; (add-hook 'haskell-mode-hook (lambda () (ghc-init) (hare-init)))
 (add-hook 'haskell-mode-hook 'flycheck-mode)
 ;; (add-hook 'haskell-mode-hook 'stack-mode)
 (add-hook 'haskell-mode-hook 'intero-mode)
+(add-hook 'haskell-mode-hook 'set-truncate-lines)
 (add-hook 'haskell-mode-hook
 	  (lambda () (local-set-key (kbd "C-c C-r") 'intero-restart)))
 (intero-global-mode 1)

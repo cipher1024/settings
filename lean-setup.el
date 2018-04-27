@@ -512,6 +512,13 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
   (interactive)
   (lean-leanpkg-run-quiet "test"))
 
+(defun lean-core-lib-path ()
+     (f-join
+      (f-parent (f-parent (string-trim (shell-command-to-string "elan which lean"))))
+      "lib"
+      "lean"
+      "library"))
+
 (defun lean-leanpkg-upgrade ()
   "Call leanpkg upgrade"
   (interactive)

@@ -11,27 +11,61 @@
 (defun tomorrow ()
   (+ (float-time (current-time)) day))
 
-(setq schedule '("mindfulness (10min)"
-		 "pills"
-		 ("physio"
-		  ( "series 1"
-		    "series 2"
-		    "series 3" ) )
-		 ("writing (2h)"
-		  ( "5 min free flow writing"
-		    "30 min"
-		    "30 min"
-		    "30 min"
-		    "30 min"
-		    "commit thesis" ))))
+(defun on-day (days items)
+  (if (member (format-time-string "%a" (current-time)) days)
+      (list items)))
+
+(defconst week-day '("Mon" "Tue" "Wed" "Thu" "Fri"))
+(defconst weekend-day '("Sat" "Sun"))
+
+(defun schedule-p (sch)
+  (and (listp sch)
+       (seq-every-p (lambda (x) (or (stringp x)
+				    (and (consp x)
+					 (consp (cdr x))
+					 (stringp (car x))
+					 (schedule-p (cadr x))))) sch)))
+
+(defun schedule ()
+  `( ( "morning"
+       ("mindfulness (10min)"
+	"pills"
+	"shower"
+	"laundry"
+	"dishes"
+	("physio (elastic band)"
+	 ( "series 1"
+	   "series 2"
+	   "series 3" ) )
+	("physio (lifting arm)"
+	 ( "series 1"
+	   "series 2"
+	   "series 3" ) ) ) )
+     ( "evening [/]" () )
+    ,@(on-day '("Tue")
+	     "Starbucks")
+    ,@(on-day '("Mon" "Tue" "Wed")
+	      "Weever")
+    ,@(on-day '("Thu" "Fri" "Sat")
+	      '("writing (2h)"
+		 ( "5 min free flow writing"
+		   "30 min"
+		   "30 min"
+		   "30 min"
+		   "30 min"
+		   "30 min"
+		   "30 min"
+		   "commit thesis" )))))
 
 (defun check-box (arg &optional depth)
   (let* ((depth (if (null depth)
 		     0
 		  depth))
 	 (margin (mapconcat 'identity (make-list depth "  ") ""))
-	 (item (if (stringp arg) arg (car arg)))
-	 (tail (if (stringp arg) nil (cadr arg)))
+	 (item (cond ((stringp arg) arg)
+		     ((listp arg) (car arg))
+		     (t (prin1-to-string arg))))
+	 (tail (if (listp arg) (cadr arg) nil))
 	 (ratio (if (null tail) "" (concat " [0/" (number-to-string (length tail)) "]"))))
     (cons (concat margin " * [ ] " item ratio)
 	  (seq-mapcat (lambda (x) (check-box x (+ 1 depth))) tail))
@@ -65,7 +99,7 @@
 	     (if b
 		 (today-schedule)
 	       (today-paragraph))
-	      )))
+	     )))
       (save-buffer))))
 
 (defun header-date ()
@@ -75,8 +109,11 @@
   (concat (header-date) " [0/" (number-to-string sch) "]"))
 
 (defun daily-schedule (time)
-  (let* ((check-list (cons (header (length schedule) time) (seq-mapcat 'check-box schedule nil))))
-    (concat (string-join check-list "\n") "\n")))
+  (let ((sch (schedule)))
+    (cl-assert (schedule-p sch) t "foo %s")
+    (let ((check-list (cons (header (length sch) time)
+			    (seq-mapcat 'check-box sch nil))))
+      (concat (string-join check-list "\n") "\n"))))
 
 (defun today-paragraph ()
   (let* ((check-list (header 0 (current-time))))

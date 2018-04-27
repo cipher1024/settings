@@ -70,3 +70,9 @@
 (setq paren-match-face 'highlight)
 (require 'mic-paren)
 (paren-activate)
+
+(defun setup-auto-revert ()
+   (file-notify-add-watch
+    buffer-file-name '(change) (lambda (event) (revert-buffer t t))))
+
+(add-hook 'read-only-mode-hook 'setup-auto-revert t)
