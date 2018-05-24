@@ -68,6 +68,15 @@
      )))
 
 
+(concat '((1 2 3) (1 2 3) (3 2 1)))
+
+(defun repl-string (s)
+  (let ((ls (string-to-list s)))
+    (butlast (seq-mapcat (lambda (x) (list x '(Br . Bl)))
+			 ls ))))
+
+(repl-string "ab")
+
 ;;;###autoload
 (define-derived-mode tla-mode prog-mode "TLA"
   "TLA mode is a major mode for writing TLA+ specifications"
@@ -80,14 +89,14 @@
   (setq-local comment-end "*)")
 
   (setq-local prettify-symbols-alist
-              '(
+              `(
                 ("/\\" . ?∧)          ("\\land" . ?∧)
                 ("\\/" . ?∨)          ("\\lor" . ?∨)
                 ("=>" . ?⇒)
                 ("~" . ?¬)
                 ("\\lnot" . ?¬)       ("\\neg" . ?¬)
                 ("<=>" . ?≡)          ("\equiv" . ?≡)
-                ("==" . ?≜)
+                ("==" . ,(repl-string "≜ "))
                 ("\\in" . ?∈)
                 ("\\notin" . ?∉)
                 ("#" . ?≠)            ("/=" . ?≠)
@@ -125,8 +134,8 @@
                 ("|=" . ?⊨)
                 ;;"=|" no good rendering
                 ("\\sim" . ?∼)
-                ("->" . ?⭢)
-                ("<-" . ?⭠)
+                ("->" . ?→)
+                ("<-" . ?←)
                 ("\\simeq" . ?≃)
                 ("\\cap" . ?∩)          ("\\intersect" . ?∩)
                 ("\\cup" . ?∪)          ("\\union" . ?∪)
@@ -144,8 +153,13 @@
                 ;;
                 ;;
                 ;;
-                ("\\E" . ?∃)
-                ("\\A" . ?∀)
+                ("(\\E" . ,(repl-string " (∃"))
+		("\\E" . ,(repl-string " ∃"))
+                ;; ("(\\A" . (?  (Br . Bl) ?( (Br . Bl) ?∀))
+                ("(\\A" . ,(repl-string " (∀"))
+                ("\\A" . ,(repl-string " ∀"))
+		;; ("\\A" . (?a (Br . Bl) ?b (Br . Bl) ?c))
+
                 ;;("\\EE" . ?∃)
                 ;;("\\A" . ?∀)
                 ("LAMBDA" . ?λ)
