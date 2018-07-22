@@ -1,6 +1,5 @@
 
 ;;; Code:
-
 (require 'project)
 
 (defmacro enable-info-buffer (buffer-or-name panel &rest body)
@@ -16,24 +15,113 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 	     (switch-to-prev-buffer x)))
 	 `((set-window-buffer ,panel ,buffer-or-name)))))
 
-(setq lean-mode-required-packages
-      '(lean-mode helm-lean company-lean company dash dash-functional f
-		flycheck let-alist s seq))
+;; (setq lean-mode-required-packages
+;;       '(lean-mode helm-lean company-lean company dash dash-functional f
+;; 		flycheck let-alist s seq))
 
-(let ((need-to-refresh t))
-  (dolist (p lean-mode-required-packages)
-    (when (not (package-installed-p p))
-      (when need-to-refresh
-        (package-refresh-contents)
-        (setq need-to-refresh nil))
-      (package-install p))))
+;; (let ((need-to-refresh t))
+;;   (dolist (p lean-mode-required-packages)
+;;     (when (not (package-installed-p p))
+;;       (when need-to-refresh
+;;         (package-refresh-contents)
+;;         (setq need-to-refresh nil))
+;;       (package-install p))))
+
+(quelpa '(helm-lean :repo "leanprover/lean-mode" :fetcher github))
+(quelpa '(company-lean :repo "leanprover/lean-mode" :fetcher github))
+(quelpa '(lean-mode :repo "leanprover/lean-mode" :fetcher github))
+
+(defmacro lean-with-current-buffer-maybe (bufname &rest body)
+  "If BUFNAME is a live buffer, run BODY in it."
+  (declare (indent defun)
+           (debug t))
+  `(-when-let* ((bufname ,bufname)
+                (buf (get-buffer bufname)))
+     (with-current-buffer buf
+       ,@body)))
+
+(defun lean--make-diff-temp-buffer (bufname string prefix)
+  "Insert STRING into BUFNAME, with optional PREFIX."
+  (with-current-buffer (get-buffer-create bufname)
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (when prefix (insert prefix))
+      (insert string)
+      (newline))
+    (current-buffer)))
+
+(defun lean-diff-strings (s1 s2 prefix diff-buffer-name context)
+  "Compare S1 and S2, with PREFIX.
+Use DIFF-BUFFER-NAME to name newly created buffers.  Display CONTEXT lines
+of context around differences."
+  (let ((same-window-buffer-names '("*Diff*"))
+        (b1 (lean--make-diff-temp-buffer (format "*lean-%s-A*" diff-buffer-name) s1 prefix))
+        (b2 (lean--make-diff-temp-buffer (format "*lean-%s-B*" diff-buffer-name) s2 prefix)))
+    (set-window-dedicated-p (selected-window) nil)
+    (lean-with-current-buffer-maybe diff-buffer-name
+      (kill-buffer))
+    (unwind-protect
+        (diff b1 b2 `(,(format "--unified=%d" context) "--minimal" "--ignore-all-space") 'noasync)
+      (kill-buffer b1)
+      (kill-buffer b2))
+    (lean-with-current-buffer-maybe "*Diff*"
+      (diff-refine-hunk)
+      (rename-buffer diff-buffer-name)
+      (save-excursion
+        (goto-char (point-min))
+        (let ((inhibit-read-only t))
+          (when (re-search-forward "^@@" nil t)
+            (delete-region (point-min) (match-beginning 0)))
+          (while (re-search-forward " *\n *\n\\( *\n\\)+" nil t)
+            ;; Remove spurious spacing added to prevent diff from mixing terms
+            (replace-match "\n" t t)))))))
+
+;; (lean-diff-strings "a" "b" "-" "*lean-diff*" 2)
+(defun lean-not-is-expected (x)
+  (not (equal "but is expected to have type" x)))
+(defun lean-not-is-actual (x)
+  (not (equal "has type" x)))
+
+(defun lean-diff-types ()
+  (interactive)
+  (let* ((errs (with-current-buffer (get-buffer lean-next-error-buffer-name)
+                  (buffer-substring-no-properties (point-min) (point-max))))
+         (lns (split-string errs "\n"))
+         (msg (seq-take-while 'lean-not-is-actual lns))
+         (types (seq-drop (seq-drop-while 'lean-not-is-actual lns) 1 ))
+         (expected (seq-take-while (lambda (x) (not (string-empty-p x)))
+                                   (seq-drop (seq-drop-while 'lean-not-is-expected types) 1)))
+         (actual (seq-take-while 'lean-not-is-expected types)))
+    (unless (null expected)
+      (save-selected-window
+        (with-current-buffer (get-buffer-create "*lean-diff*")
+          (pop-to-buffer
+           ;; (switch-to-buffer-other-window
+           (current-buffer) '())
+          (lean-diff-strings (mapconcat 'identity actual "\n")
+                             (mapconcat 'identity expected "\n")
+                             "type: " "*lean-diff*" 5)
+          (with-current-buffer (get-buffer-create "*lean-diff*")
+            (let ((buffer-read-only nil))
+              (save-excursion
+                (insert (mapconcat 'identity msg "\n" ))
+                (insert "\n")))))))))
 
 (require 'unicode-fonts)
 (unicode-fonts-setup)
-(global-set-key (kbd "S-SPC") #'company-complete)
+(use-package company
+  :ensure t
+  :diminish ""
+  :init
+  ;; (add-hook 'prog-mode-hook 'company-mode)
+  ;; (add-hook 'comint-mode-hook 'company-mode)
+  :config
+  (global-company-mode)
+  (define-key company-mode-map (kbd "S-SPC") #'company-complete))
+;; (global-set-key (kbd "S-SPC") #'company-complete)
 
-(if (not (boundp 'lean-version))
-    (setq lean-version "master"))
+;; (if (not (boundp 'lean-version))
+;;     (setq lean-version "master"))
 
 ;; You need to modify the following two lines:
 ;; (if lean-rootdir
@@ -51,22 +139,24 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 (require 'lean-mode)
 (add-hook 'lean-mode-hook 'set-truncate-lines)
 
-(defun unload-lean ()
-  (unload-feature 'lean-setup)
-  (unload-feature 'lean-mode)
-  (setenv "PATH" (string-join (delete lean-bin (split-string (getenv "PATH") ":")) ":"))
-  (setq load-path (delq lean-rootdir (delete lean-emacs-path load-path))))
+(define-key lean-mode-map (kbd "C-c C-t") 'lean-diff-types)
 
-(defun reload-lean (&optional version)
-  (unload-lean)
-  (if version
-      (setq lean-version version)
-    (setq lean-version "master"))
-  (load 'lean-setup))
+;; (defun unload-lean ()
+;;   (unload-feature 'lean-setup)
+;;   (unload-feature 'lean-mode)
+;;   (setenv "PATH" (string-join (delete lean-bin (split-string (getenv "PATH") ":")) ":"))
+;;   (setq load-path (delq lean-rootdir (delete lean-emacs-path load-path))))
 
-(defun set-lean-version (version)
-  (if (not (equal version lean-version))
-      (reload-lean version)))
+;; (defun reload-lean (&optional version)
+;;   (unload-lean)
+;;   (if version
+;;       (setq lean-version version)
+;;     (setq lean-version "master"))
+;;   (load 'lean-setup))
+
+;; (defun set-lean-version (version)
+;;   (if (not (equal version lean-version))
+;;       (reload-lean version)))
 
 (defmacro mk-layout-window (name &rest def)
   `(progn
@@ -417,10 +507,10 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
   (let ((dir (lean-leanpkg-find-dir-safe)))
     (find-file (f-join dir "lean_version"))))
 
-(defun lean-insert-hash ()
-  (interactive)
-  (let ((default-directory "~/lean/lean-master"))
-    (call-process "git" nil (current-buffer) t "rev-parse" "HEAD")))
+;; (defun lean-insert-hash ()
+;;   (interactive)
+;;   (let ((default-directory "~/lean/lean-master"))
+;;     (call-process "git" nil (current-buffer) t "rev-parse" "HEAD")))
 
 (defun lean-leanpkg-dev-switch ()
   (interactive)
@@ -498,53 +588,163 @@ BODY is a series of instructions that will result in the creation of BUFFER-OR-N
 		       (list "build" "--" "--profile" "--test-suite")))
 
 (defun lean-leanpkg-profile-file ()
+  "Profile current file."
   (interactive)
   (my-lean-leanpkg-run "lean" (lean-get-executable lean-executable-name)
 		       (list (buffer-file-name) "--profile" "--test-suite")))
 
 (defun lean-leanpkg-build-quiet ()
-  "Call leanpkg build (quiet)"
+  "Call leanpkg build (quiet)."
   (interactive)
   (lean-leanpkg-run-quiet "build"))
 
 (defun lean-leanpkg-test-quiet ()
-  "Call leanpkg build (quiet)"
+  "Call leanpkg build (quiet)."
   (interactive)
   (lean-leanpkg-run-quiet "test"))
 
+;; (use-package lean-mode
+;;   :bind (:map lean-mode-map
+;; 	      ("S-SPC" . company-complete)))
+
 (defun lean-core-lib-path ()
-     (f-join
-      (f-parent (f-parent (string-trim (shell-command-to-string "elan which lean"))))
-      "lib"
-      "lean"
-      "library"))
+  "The path to the version of core lib corresponding to current development."
+  (f-join
+   (f-parent (f-parent (string-trim (shell-command-to-string "elan which lean"))))
+   "lib"
+   "lean"
+   "library"))
 
 (defun lean-leanpkg-upgrade ()
-  "Call leanpkg upgrade"
+  "Call leanpkg upgrade."
   (interactive)
   (lean-leanpkg-run "upgrade"))
 
-(defun lean-show-goal-and-error-list ()
+;; (defun lean-clear-target ()
+;;   (interactive)
+
+
+;; (defun lean-show-goal-and-error-list ()
+;;   "Enable flycheck and display its error list as well as Lean's current goal."
+;;   (interactive)
+;;   (enable-info-buffer
+;;    lean-show-goal-buffer-name
+;;    (get-top-right-panel)
+;;    (lean-toggle-show-goal))
+;;   (enable-info-buffer
+;;    flycheck-error-list-buffer
+;;    (get-bottom-right-panel)
+;;    (flycheck-mode)
+;;    (flycheck-list-errors)))
+
+;; (defun lean-jump-to-error-message ()
+;;   (interactive)
+;;   (enable-info-buffer
+;;    lean-next-error-buffer-name
+;;    (get-top-right-panel)
+;;    (lean-toggle-next-error))
+;;   (select-window (get-top-right-panel)))
+
+;; ;; DELETE THESE
+;; (global-set-key (kbd "C-x l") 'lean-show-goal-and-error-list)
+;; (global-set-key (kbd "C-x C-l") 'lean-jump-to-error-message)
+;; ;; (add-hook 'lean-mode-hook 'lean-show-goal-and-error-list)
+
+(defconst lean-cmd-keywords1
+  '("import" "prelude" "protected" "private" "noncomputable" "definition" "meta" "renaming"
+    "hiding" "exposing" "parameter" "parameters" "constant" "constants"
+    "lemma" "variable" "variables" "theorem" "example" "abbreviation"
+    "open" "export" "axiom" "axioms" "inductive" "coinductive"
+    "structure" "universe" "universes" "hide"
+    "precedence" "reserve" "declare_trace" "add_key_equivalence"
+    "infix" "infixl" "infixr" "notation" "postfix" "prefix" "instance"
+    "namespace" "section"
+    "attribute" "local" "set_option" "extends" "include" "omit" "classes" "class"
+    "attributes" "raw" "replacing" "@"
+    "mutual" "def" "run_cmd"))
+
+(defconst lean-cmd-keywords1-regexp
+  (eval `(rx word-start (or ,@lean-cmd-keywords1) word-end)))
+
+(cl-defun lean-def-definition-text (&key file line column)
+  ;; (when (fboundp 'xref-push-marker-stack) (xref-push-marker-stack))
+  ;; (when file
+  ;;   (find-file file))
+  ;; (goto-char (point-min))
+  ;; (forward-line (1- line))
+  ;; (forward-char column))
+  (let ((buf (get-file-buffer file)))
+    (with-current-buffer (or buf
+			     (find-file-noselect file))
+      (goto-char (point-min))
+      (forward-line (1- line))
+      (forward-char column)
+      (re-search-backward lean-cmd-keywords1-regexp)
+      (print "wha?")
+      (let ((p1 (point)))
+	(re-search-forward lean-cmd-keywords1-regexp)
+	(re-search-forward lean-cmd-keywords1-regexp)
+	(re-search-backward lean-cmd-keywords1-regexp)
+	(print "oh ...")
+	(let ((r (buffer-substring-no-properties p1 (point))))
+	  (unless buf
+	    (kill-buffer))
+	  r)))))
+
+(defun lean-show-definition-b ()
   (interactive)
-  (enable-info-buffer
-   lean-show-goal-buffer-name
-   (get-top-right-panel)
-   (lean-toggle-show-goal))
-  (enable-info-buffer
-   flycheck-error-list-buffer
-   (get-bottom-right-panel)
-   (flycheck-mode)
-   (flycheck-list-errors)))
+  (with-current-buffer (get-buffer "*lean-definition-info*")
+    (erase-buffer)
+    (set-truncate-lines)
+    (insert (unbounded-pp
+	     (lean-server-send-synchronous-command
+	      'search (list :query helm-pattern))))
+    (switch-to-buffer-other-window (current-buffer))))
 
-(defun lean-jump-to-error-message ()
+;; (switch-to-buffer-other-window
+;;  (progn
+;;    (lean-ensure-info-buffer "*lean-definition-info*")
+;;    (get-buffer "*lean-definition-info*")))
+
+(defun lean-show-definition ()
   (interactive)
-  (enable-info-buffer
-   lean-next-error-buffer-name
-   (get-top-right-panel)
-   (lean-toggle-next-error))
-  (select-window (get-top-right-panel)))
+  (lean-get-info-record-at-point
+   (lambda (info-record)
+     (let* ((src (plist-get info-record :source)))
+       (lean-ensure-info-buffer "*lean-definition-info*")
+       (with-current-buffer (get-buffer "*lean-definition-info*")
+	 (erase-buffer)
+	 (insert (apply #'lean-def-definition-text src))
+	 (goto-char (point-min))
+	 (switch-to-buffer-other-window (current-buffer)))))))
 
+     ;; (-if-let (source-record (plist-get info-record :source))
+     ;;     (apply #'lean-find-definition-cont source-record)
+     ;;   (-if-let (id (plist-get info-record :full-id))
+     ;;       (message "no source location available for %s" id)
+     ;;     (message "unknown thing at point")))
 
-(global-set-key (kbd "C-x l") 'lean-show-goal-and-error-list)
-(global-set-key (kbd "C-x C-l") 'lean-jump-to-error-message)
-;; (add-hook 'lean-mode-hook 'lean-show-goal-and-error-list)
+(defun lean-sphinx-snippet ()
+  (interactive)
+  (let ((cur nil))
+    (goto-char (line-beginning-position))
+    (insert (mapconcat 'identity
+                       '(".. code-block:: lean"
+                         ""
+                         ;; "    namespace hidden"
+                         ;; ""
+                         "    -- BEGIN"
+                         "    ")
+                       "\n"))
+    (setq cur (point))
+    (insert (mapconcat 'identity
+                       '(""
+                         "    -- END"
+                         ;; ""
+                         ;; "    end hidden"
+                         "    ")
+                       "\n"))
+    (goto-char cur)))
+
+(add-hook 'rst-mode-hook (lambda () (set-input-method "Lean")))
+(add-hook 'rst-mode-hook 'auto-fill-mode)

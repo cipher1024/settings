@@ -67,9 +67,6 @@
      ( ,(regexp-opt tla-mode-types 'words) . font-lock-type-face)
      )))
 
-
-(concat '((1 2 3) (1 2 3) (3 2 1)))
-
 (defun repl-string (s)
   (let ((ls (string-to-list s)))
     (butlast (seq-mapcat (lambda (x) (list x '(Br . Bl)))
@@ -97,8 +94,8 @@
                 ("\\lnot" . ?¬)       ("\\neg" . ?¬)
                 ("<=>" . ?≡)          ("\equiv" . ?≡)
                 ("==" . ,(repl-string "≜ "))
-                ("\\in" . ?∈)
-                ("\\notin" . ?∉)
+                ("\\in" . ,(repl-string " ∈ "))
+                ("\\notin" . ,(repl-string " ∉ "))
                 ("#" . ?≠)            ("/=" . ?≠)
                 ("<<" . ?⟨)
                 (">>" . ?⟩)
