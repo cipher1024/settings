@@ -1,0 +1,3 @@
+[submodule "yasnippet-lean"]
+	path = yasnippet-lean
+	url = https://github.com/leanprover-community/yasnippet-lean.git
