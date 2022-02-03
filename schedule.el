@@ -11,51 +11,107 @@
 (defun tomorrow ()
   (+ (float-time (current-time)) day))
 
-(defun on-day (days items)
-  (if (member (format-time-string "%a" (current-time)) days)
-      (list items)))
+(defun on-day (days &rest items)
+  (if (member (format-time-string "%a") days)
+      items))
+
+(defun monthly (day &rest items)
+  (if (= (string-to-number (format-time-string "%d")) day)
+      items))
+
 
 (defconst week-day '("Mon" "Tue" "Wed" "Thu" "Fri"))
 (defconst weekend-day '("Sat" "Sun"))
 
 (defun schedule-p (sch)
-  (and (listp sch)
+  (and (or (listp sch) (error (format "%s schould be a list" sch)))
        (seq-every-p (lambda (x) (or (stringp x)
-				    (and (consp x)
-					 (consp (cdr x))
-					 (stringp (car x))
+				    (and (or (consp x)
+                                             (error (format "%s schould be a pair (%s)" x sch)))
+					 (or (consp (cdr x))
+                                             (error (format "%s schould be a pair (%s)" (cdr x) sch)))
+					 (or (stringp (car x))
+                                             (error (format "%s schould be a string (%s)" (car x)) sch))
 					 (schedule-p (cadr x))))) sch)))
 
-(defun schedule ()
+(defmacro def-schedule (body)
+  (schedule-p (eval body))
+  `(defun schedule () ,body))
+
+(defun display-or-find-file (file)
+  (or (when-let (buf (get-file-buffer file))
+	(display-buffer-in-previous-window buf nil))
+      (find-file file)))
+
+(defun my-daily-schedule ()
+  (interactive)
+  (display-or-find-file "~/org-mode/daily-schedule.org"))
+
+(defun my-tasks ()
+  (interactive)
+  (display-or-find-file "~/org-mode/tasks.org"))
+
+;; (defun schedule ()
+(def-schedule
   `( ( "morning"
-       ("mindfulness (10min)"
-	"pills"
-	"shower"
-	"laundry"
-	"dishes"
-	("physio (elastic band)"
-	 ( "series 1"
-	   "series 2"
-	   "series 3" ) )
-	("physio (lifting arm)"
-	 ( "series 1"
-	   "series 2"
-	   "series 3" ) ) ) )
-     ( "evening [/]" () )
-    ,@(on-day '("Tue")
-	     "Starbucks")
-    ,@(on-day '("Mon" "Tue" "Wed")
-	      "Weever")
-    ,@(on-day '("Thu" "Fri" "Sat")
-	      '("writing (2h)"
-		 ( "5 min free flow writing"
-		   "30 min"
-		   "30 min"
-		   "30 min"
-		   "30 min"
-		   "30 min"
-		   "30 min"
-		   "commit thesis" )))))
+       ( ( "pills"
+           ( "med1" ) )
+         ;; ( "drain"
+         ;;   ( ( "9:00" ( "2" )  ) ) )
+         "brush teeth"
+         "shower"
+         "laundry"
+         "dishes"
+         "mindfulness (10min)" ) )
+     ,@(on-day '("Mon")
+	       '( "Choose 3 [[/Users/simon/org-mode/tasks.org][tasks]]"
+		  ( "task" ) )
+	       "Laundry")
+    ;; ,@(on-day '("Tue")
+    ;;          "Starbucks")
+    ;; ,@(on-day '("Mon" "Tue" "Wed")
+    ;;           "Weever"
+    ;;           '("writing (2h)"
+    ;;     	 ( "5 min free flow writing"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "commit thesis" )))
+    ,@(monthly 21
+	       '("bills"
+		 ("credit card")))
+    ;; ,@(on-day '("Thu" "Fri")
+    ;;           '("writing (2h)"
+    ;;     	 ( "5 min free flow writing"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "30 min"
+    ;;     	   "commit thesis" )))
+    "tylenols"
+    ( "evening"
+      ( ( "pills"
+        ( "surgery" "welbutrin" "tylenol" ) )
+      "brush teeth"
+      ;; ( "drain"
+      ;;   ( ( "21:00" ( "2" ) ) ) )
+      ) )
+    ( "tomorrow" () )
+    ;; ( "evening"
+      ;; ("close office windows"
+      ;;  "brush teeth"
+      ;;  "floss"
+      ;;  ("physio (lifting arm)"
+      ;;   ( "series 1"
+      ;;     "series 2"
+      ;;     "series 3" ) )
+      ;;  ("physio (elastic band)"
+      ;;   ( "series 1"
+      ;;     "series 2"
+      ;;     "series 3" )
+      ;;   )))
+    ))
 
 (defun check-box (arg &optional depth)
   (let* ((depth (if (null depth)
@@ -82,6 +138,10 @@
   (make-variable-buffer-local 'my-routine-timer)
   (setq my-routine-timer (run-at-time nil minute 'update-schedule (current-buffer) t))
   (add-hook 'kill-buffer-hook (lambda () (cancel-timer my-routine-timer)) t t))
+
+(defun save-this-buffer (buf)
+  (with-current-buffer buf
+    (save-buffer)))
 
 (defun is-up-to-date ()
   (string=

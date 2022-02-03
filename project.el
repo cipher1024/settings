@@ -1,24 +1,73 @@
 ;;; -*- lexical-binding: t -*-
 
+(use-package projectile
+  :ensure t)
+(use-package project-explorer
+  :ensure t)
+(use-package helm
+  :ensure t)
+(use-package helm-projectile
+  :ensure t)
+
 (provide 'project)
 (require 'neotree)
 (require 'find-file-in-project)
 
 (require 'projectile)
-(require 'counsel-projectile)
+(setq projectile-keymap-prefix nil)
+;; (global-set-key (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "C-c f") 'projectile-find-file)
+(global-set-key (kbd "C-c h") 'helm-projectile)
+;; (require 'counsel-projectile)
 (require 'helm-projectile)
 ;; (require 'persp-projectile)
 
 (require 'project-explorer)
+;; (setq projectile-indexing-method 'native)
+
+(defun project-eshell ()
+  (interactive)
+  (save-current-buffer
+    (save-selected-window
+      (let* ((dir (find-root-dir-safe ".git"))
+             (buf-name (concat "*"
+			       (file-name-base dir)
+			       "*"))
+	     (buf (get-buffer buf-name)))
+	(if buf (switch-to-buffer-other-window buf)
+          (other-window 1)
+          (cd dir)
+          (let ((buf (eshell dir)))
+            (select-window (next-window))
+            (with-current-buffer buf
+              (rename-buffer buf-name))))))))
+
+(defun project-shell ()
+  (interactive)
+  (save-current-buffer
+    (save-selected-window
+      (let* ((dir (find-root-dir-safe ".git"))
+             (buf-name (concat "*"
+			       (file-name-base dir)
+			       "*"))
+	     (buf (get-buffer buf-name)))
+	(if buf (switch-to-buffer-other-window buf)
+          (other-window 1)
+          (cd dir)
+          (let ((buf (shell dir)))
+            (select-window (next-window))
+            (with-current-buffer buf
+              (rename-buffer buf-name))))))))
 
 ;; (project-explorer-open) -- open the sidebar
 ;; (project-explorer-helm) -- browse the file collection using helm
 ;; Main key-bindings:
 
+;; (projectile-switch-project)
 (projectile-global-mode)
 (setq pe/omit-gitignore t)
 (setq pe/cache-enabled t)
-(setq projectile-enable-caching t)
+(setq projectile-enable-caching nil)
 ;; (setq projectile-project-root
 
 ;; "s"        Change directory
@@ -97,7 +146,7 @@
 (add-to-list 'neo-hidden-regexp-list ".sublime-workspace")
 
 (setq neo-smart-open t)
-(setq projectile-switch-project-action 'neotree-projectile-action)
+;; (setq projectile-switch-project-action 'neotree-projectile-action)
 (defun neotree-project-dir ()
   "Open NeoTree using the git root."
   (interactive)

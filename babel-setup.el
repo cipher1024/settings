@@ -1,4 +1,4 @@
 
-(require 'ob-python)
-(require 'ob-ruby)
-(require 'ob-sh)
+(use-package ob-python)
+(use-package ob-ruby)
+(use-package ob-shell)

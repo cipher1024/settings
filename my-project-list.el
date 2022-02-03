@@ -48,8 +48,8 @@
 
 (defun find-root-dir-in (dir root-file)
   (when dir
-    (or (find-root-dir-in (f-parent dir) root-file)
-        (when (f-exists? (f-join dir root-file)) dir))))
+    (or (when (f-exists? (f-join dir root-file)) dir)
+        (find-root-dir-in (f-parent dir) root-file))))
 
 (defun find-root-dir (root-file)
   (and (buffer-file-name)
@@ -69,7 +69,7 @@
 
 (defun close-project ()
   (interactive)
-  (let ((dir (find-root-dir-safe ".git")))
+  (let ((dir (file-name-as-directory (find-root-dir-safe ".git"))))
     (dolist (b (buffer-list))
       (when (string= (seq-take (buffer-file-name b) (length dir)) dir)
 	(kill-buffer b)))))
@@ -78,11 +78,15 @@
   (cond ((eq kind 'thesis)
 	 (select-project path "\\.org\\|\\.sty\\|\\.hs|\\.tla" "/.stack-work/" t))
 	((eq kind 'lean) (select-project path "\\.lean\\|\\.md" "/_target/" t))
+	((eq kind 'rust) (select-project path "\\.rs\\|\\.md" "/target/" t))
+	((eq kind 'coq) (select-project path "\\.v\\|\\.md" "/target/" t))
+	((eq kind 'cpp) (select-project path "\\.cpp\\|\\.hpp\\|\\.c\\|\\.h\\|\\.md" "/build/" t))
 	((eq kind 'file) (find-file path))
 	((eq kind 'haskell)
 	 (select-project path
 			 "\\.lhs\\|\\.hs\\|\\.yml\\|\\.yaml\\|\\.cabal\\|\\.travis|\\.tla"
-			 "/.stack-work/" t))))
+			 "/.stack-work/" t))
+        (else (error "wrong project kind"))))
 
 (defun my-todo ()
   (interactive)
@@ -198,6 +202,52 @@
     (add-to-list 'lean-project-list (cons pname dir))
     (update-project-list)))
 
+(defun clone-lean-project ()
+  (clone-project "~/lean/" 'lean-project-list))
+
+(defun clone-coq-project ()
+  (clone-project "~/Coq/" 'coq-project-list))
+
+(defun clone-rust-project ()
+  (clone-project "~/rust/" 'rust-project-list))
+
+(defun clone-cpp-project ()
+  (clone-project "~/cpp/" 'cpp-project-list))
+
+(defun clone-project (dir list-name)
+  (let* ((url (read-string "project repo: "))
+	 (pname (file-name-base
+		 (directory-file-name url)))
+	 (dir (concat dir pname)))
+    (magit-clone url dir)
+    (add-to-list list-name (cons pname dir))
+    (update-project-list)))
+
+(defun lean-leanpkg-new (pname dir)
+  (interactive
+   (list (read-string "Project name: ")
+         (read-directory-name "Choose directory: ")))
+  (print pname)
+  (unless (file-exists-p (file-name-as-directory dir))
+    (make-directory dir))
+  (unless (file-exists-p (concat dir "src/"))
+    (make-directory (concat dir "src/")))
+  (with-current-buffer (get-buffer-create "*leanpkg*")
+      (setq default-directory dir)
+      (setq buffer-read-only nil)
+      (erase-buffer)
+      (switch-to-buffer-other-window (current-buffer))
+      (redisplay)
+      (insert (format "> leanpkg init %s\n" pname))
+      ;; (set-process-sentinel
+      ;;  (start-process "leanpkg" (current-buffer)
+      ;;   	      (lean-leanpkg-executable) "init" pname)
+      ;;  'create-dummy-source-file)
+      (call-process (lean-leanpkg-executable) nil t t "init" pname)
+      )
+)
+
+
 (defun create-new-lean-project ()
   (let* ((pname (read-string "project name: "))
 	 (dir (concat "~/lean/" pname "/")))
@@ -209,20 +259,23 @@
     (update-project-list)
     (copy-file "~/lean/lean-lib/.travis.yml" dir)
     (copy-file "~/lean/lean-lib/.dir-locals.el" dir)
+    (with-current-buffer (create-file-buffer (concat dir "README.md"))
+      (insert (concat "# " pname))
+      (write-file (concat dir "README.md"))
+      (kill-buffer))
     (magit-init dir)
-    (with-current-buffer (get-buffer-create "*leanpkg*")
-      (setq default-directory dir)
-      (setq buffer-read-only nil)
-      (setq-local pname pname)
-      (erase-buffer)
-      (switch-to-buffer-other-window (current-buffer))
-      (redisplay)
-      (insert (format "> leanpkg init %s\n" pname))
-      (set-process-sentinel
-       (start-process "leanpkg" (current-buffer)
-		      (lean-leanpkg-executable) "init" pname)
-       'create-dummy-source-file))))
+    (lean-leanpkg-new pname dir)
+    (setq-local pname pname)
+    (create-dummy-source-file nil nil)
+    (setq current-directory dir)
+    (seq-map 'magit-stage-file
+             (list "README.md"
+                   "leanpkg.toml"
+                   ".gitignore"
+                   ".travis.yml" ))
+    ))
 
+(persistent lean-project-list)
 (defun my-lean-projects ()
   (interactive)
   (with-menu dir ("select Lean project:"
@@ -235,15 +288,61 @@
 			  '( ("Create new Lean project" . create-new-lean-project)
 			     ("Clone project" . clone-lean-project) )
 			  ) )
-	     (print dir)
 	     (if (symbolp dir)
 		 (funcall dir)
 		 (select-project-file dir 'lean))))
+
+(persistent coq-project-list)
+(defun my-coq-projects ()
+  (interactive)
+  (with-menu dir ("select Rust project:"
+		  (append (sort-on
+                           coq-project-list
+                           (lambda (x) (access-time (cdr x)))
+                           'compare-mod-time)
+			     '( ("Clone project" . clone-coq-project) )
+			  ) )
+	     (if (symbolp dir)
+		 (funcall dir)
+		 (select-project-file dir 'coq))))
+
+(persistent rust-project-list)
+(defun my-rust-projects ()
+  (interactive)
+  (with-menu dir ("select Rust project:"
+		  (append (sort-on
+                           rust-project-list
+                           (lambda (x) (access-time (cdr x)))
+                           'compare-mod-time)
+			  ;; '()
+			  ;; '( ("Create new Lean project" . create-new-lean-project)
+			     '( ("Clone project" . clone-rust-project) )
+			  ) )
+	     (if (symbolp dir)
+		 (funcall dir)
+		 (select-project-file dir 'rust))))
+
+(persistent cpp-project-list)
+(defun my-cpp-projects ()
+  (interactive)
+  (with-menu dir ("select C++ project:"
+		  (append (sort-on
+                           cpp-project-list
+                           (lambda (x) (access-time (cdr x)))
+                           'compare-mod-time)
+			  ;; '()
+			  ;; '( ("Create new Lean project" . create-new-lean-project)
+			     '( ("Clone project" . clone-cpp-project) )
+			  ) )
+	     (if (symbolp dir)
+		 (funcall dir)
+		 (select-project-file dir 'cpp))))
 
 (defun my-emacs-projects ()
   (interactive)
   (select-project "~/.emacs.d/" "\\.el" '("/.cask/" "/lisp/" "/cask/" "/elpa/")))
 
+(persistent haskell-project-list)
 (defun my-haskell-projects ()
   (interactive)
   (with-menu dir ("select Haskell project:"
@@ -285,6 +384,7 @@
       '(("thesis" . my-thesis)
 	("weever" . my-weever-projects)
 	("lean" . my-lean-projects)
+	("rust" . my-rust-projects)
 	("haskell" . my-haskell-projects)
 	("emacs" . my-emacs-projects)
 	("notes" . my-notes)))
@@ -313,4 +413,4 @@
   (save-selected-window
     (find-file-other-window (concat (find-root-dir-safe ".git") "/todo.org"))))
 
-(global-set-key (kbd "C-c C-p l") 'my-project-list)
+;; (global-set-key (kbd "C-c C-p l") 'my-project-list)

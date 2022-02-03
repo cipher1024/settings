@@ -4,6 +4,8 @@
 ;; ;; ;; (unload-feature 'doi-utils t)
 ;; ;; ;; (unload-feature 'org-ref-utils t)
 ;; ;; ;; (unload-feature 'org-ref-pdf t)
+(require 'rx)
+(require 'org-inlinetask)
 (use-package auto-package-update
   :config
   (setq auto-package-update-delete-old-versions t)
@@ -12,14 +14,34 @@
 
 (use-package org
   :ensure t)
-(use-package latex)
-(package-install 'org)
-(unless (package-installed-p 'cdlatex)
-	(package-refresh-contents)
-	(package-install 'cdlatex))
+(use-package auctex
+  :defer t
+  :ensure t)
+;; (use-package org-ref
+;;   :ensure t)
+(use-package cdlatex
+  :ensure t)
 
 (require 'org)
 (require 'latex)
+;; (require 'doi-utils)
+;; (require 'ox-synctex)
+
+;; ;; (mapc 'print org-ref-cite-types)
+(use-package pdf-tools
+  :ensure t)
+;; (require 'org-ref-pdf)
+;; (require 'org-ref-url-utils)
+;; (require 'org-ref-bibtex)
+;; (require 'org-ref-latex)
+;; (require 'helm-bibtex)
+;; (require 'org-ref-arxiv)
+;; ;; (require 'org-ref-pubmed)
+;; ;; (require 'org-ref-isbn)
+;; ;; (require 'org-ref-wos)
+;; (require 'org-ref-scopus)
+;; (use-package x2bib
+;;   :ensure t)
 ;; (require 'org-exp)
 ;; org-icalendar
 ;; (print "bar")
@@ -59,6 +81,25 @@
 
 (add-to-list 'org-modules 'org-mac-iCal)
 
+;; (goto-char (line-end-position)) ; aloo too
+
+(setq org-latex-default-packages-alist
+      (seq-filter (lambda (x) (not (and (listp x) (equal (cadr x) "fixltx2e"))))
+                  org-latex-default-packages-alist))
+
+
+(defmacro temporary-changes (&rest body)
+  ;; (let ((saved (make-symbol "undo-list")))
+  `(let ((buffer-undo-list nil))
+     ,@body
+     (primitive-undo (length buffer-undo-list) buffer-undo-list)))
+
+(defmacro trace (stuff)
+  (let ((val (make-symbol "val")))
+    `(let ((,val ,stuff))
+       (print (quote ,stuff))
+       (print ,val))))
+
 (add-hook 'org-agenda-cleanup-fancy-diary-hook
           (lambda ()
             (goto-char (point-min))
@@ -85,12 +126,13 @@
 	:config
 	(which-key-mode))
 
-(use-package org-ref
-	:ensure t
-	:after org)
+;; (use-package org-ref
+;; 	:ensure t
+;; 	:after org)
 
-;; (require 'org-latex)
-(require 'org-ref)
+;; (use-package org-latex
+;;   :ensure t)
+;; (require 'org-ref)
 
 ;; ;; (require 'nist-webbook)
 ;; (require 'org-ref-scifinder)
@@ -152,28 +194,52 @@
    (format "/Applications/Skim.app/Contents/MacOS/Skim %s &"
 	   (string-join doc " "))))
 
+(defun org-pdf-find-next-line-aux (cur-ln)
+  (re-search-forward "^l\\.\\([0-9]+\\)")
+  (let ((ln (string-to-number (match-string-no-properties 1))))
+    (if (<  cur-ln ln)
+        ln
+      (org-pdf-find-next-line-aux cur-ln))))
+
+(defun org-pdf-find-next-line ()
+  (let ((ln (line-number-at-pos)))
+    (with-current-buffer "*Org PDF LaTeX Output*"
+      (goto-char (point-min))
+      (org-pdf-find-next-line-aux ln))))
+
+(defun next-org-pdf-error-message ()
+  (interactive)
+  (goto-line 1)
+  (re-search-forward "^l\\.\\([0-9]+\\)"))
+
+(defun next-org-pdf-error ()
+  (interactive)
+  (let* ((ln (org-pdf-find-next-line)))
+    (goto-line ln)))
+
+(setq current-tex-buffer "/Users/simon/org-mode/thesis/structure.tex")
+
+(defun set-current-tex-buffer ()
+  (interactive)
+  (setq current-tex-buffer (buffer-file-name)))
+
+(defun next-org-pdf-error-struct ()
+  (interactive)
+  (find-file current-tex-buffer)
+  (goto-line 1)
+  (next-org-pdf-error))
+
+(defun org-pdf-compile-struct ()
+  (interactive)
+  (with-current-buffer (find-file-noselect "/Users/simon/org-mode/thesis/structure.org")
+    (org-latex-export-to-pdf)))
+
 ;; ;; (key-chord-define-global "kk" 'org-ref-cite-hydra/body)
 
-(require 'doi-utils)
-
-;; ;; (mapc 'print org-ref-cite-types)
-(require 'pdf-tools)
-(require 'org-ref-pdf)
-(require 'org-ref-url-utils)
-(require 'org-ref-bibtex)
-(require 'org-ref-latex)
-(require 'helm-bibtex)
-(require 'org-ref-arxiv)
-;; ;; (require 'org-ref-pubmed)
-;; ;; (require 'org-ref-isbn)
-;; ;; (require 'org-ref-wos)
-(require 'org-ref-scopus)
-(require 'x2bib)
-
-(doi-utils-def-bibtex-type
- article ("journal-article" "article-journal" "paper-conference"
-	  "chapter" "report" "article" "inproceedings")
- author title journal year volume number pages doi url)
+;; (doi-utils-def-bibtex-type
+;;  article ("journal-article" "article-journal" "paper-conference"
+;; 	  "chapter" "report" "article" "inproceedings")
+;;  author title journal year volume number pages doi url)
 
 ;; ;; (setq org-publish-project-alist
 ;; ;;       '(("orgfiles"
@@ -285,33 +351,65 @@
 (make-local-variable 'org-root-doc)
 
 (defun select-root-directory (root)
-  (setq default-directory (find-root-dir-safe root)))
+  (setq default-directory (file-name-as-directory (find-root-dir-safe root))))
 
-(defun org-export-and-compile ()
-  (org-latex-export-to-latex)
-  (latex-preview-pane-update))
+;; (defun org-export-and-compile ()
+;;   (org-latex-export-to-latex)
+;;   (latex-preview-pane-update))
 
-(defun org-preview-pane-mode ()
-  (latex-preview-pane-mode)
-  (setq-local latex-preview-pane-multifile-mode 'prompt)
-  (setq-local lpp-TeX-master
-	      (replace-regexp-in-string "\.org$" ".tex"
-					(buffer-file-name)))
-  (setq-local pdf-latex-command "latexmk")
-  (remove-hook 'after-save-hook 'latex-preview-pane-update)
-  (add-hook 'after-save-hook 'org-export-and-compile t t))
+;; (defun org-preview-pane-mode ()
+;;   (latex-preview-pane-mode)
+;;   (setq-local latex-preview-pane-multifile-mode  'auctex)
+;;   (setq-local lpp-TeX-master
+;; 	      (replace-regexp-in-string "\.org$" ".tex"
+;; 					org-root-doc))
+;;   (setq-local TeX-master lpp-TeX-master)
+;;   ;; (setq-local pdf-latex-command "latexmk")
+;;   (remove-hook 'after-save-hook 'latex-preview-pane-update)
+;;   (add-hook 'after-save-hook 'org-export-and-compile t t))
+
+;; (require 'tex
+;; (TeX-revert-document-buffer)
+
+(defun setup-todo-list ()
+  (add-to-list 'org-agenda-files (buffer-file-name))
+  (add-hook 'kill-buffer-hook
+	    (lambda ()
+	      (setq org-agenda-files (remove (buffer-file-name) org-agenda-files)))
+	    t t))
+
+;; (require 'org-projectile)
+
+;; org-projectile-todo-files
+
+(setq org-auto-sync-pdf t)
+
+(defun org-toggle-auto-sync-pdf ()
+  (interactive)
+  (setq-local org-auto-sync-pdf (not org-auto-sync-pdf)))
 
 (defun org-subdocument-of (root)
   (select-root-directory root)
+
   ;; (latex-preview-update)
   ;; (org-preview-pane-mode root)
   (setq org-root-doc root)
+  (find-file-noselect org-root-doc)
+  ;; (org-latex-export-parent-to-latex)
+  (when (file-exists-p (set-extension org-root-doc ".pdf"))
+    (display-pdf (set-extension org-root-doc ".pdf"))
+    (org-sync-pdf))
+  (setup-todo-list)
+  (setq-local org-auto-sync-pdf nil)
+  ;; (print "before")
   ;; (remove-hook 'after-save-hook 'latex-preview-pane-update)
-  (add-hook 'after-save-hook 'org-latex-export-parent-to-latex t t)
+  (add-hook 'before-save-hook 'org-latex-export-parent-and-sync t t)
+  ;; (remove-hook 'before-save-hook 'org-latex-export-parent-and-sync t t)
+  ;; (print "after")
   ;; (add-hook 'after-save-hook 'latex-preview-pane-update nil 'make-it-local)
-
   ;; (add-hook 'after-save-hook 'touch-file t t)
-  (org-preview-latex-fragment))
+  (when (eq major-mode 'org-mode)
+    (org-preview-latex-fragment)))
 
 (defun touch-file ()
   "Force modification of current file, unless already modified."
@@ -338,24 +436,190 @@
 ;;   (latex-preview-pane-update))
 
 (defun org-latex-export-parent-to-latex ()
-  (with-current-buffer (or (get-buffer org-root-doc)
-			   (find-file-noselect org-root-doc))
-    (org-latex-export-to-latex)))
+  (with-current-buffer (find-file-noselect org-root-doc)
+    (when-let (tex (get-file-buffer (set-extension org-root-doc ".tex")))
+      (kill-buffer tex))
+    (org-latex-export-to-pdf)
+    ;; (org-latex-export-to-latex)
+    ;; (compile-latex (set-extension org-root-doc ".tex"))
+    ))
+
+(defun org-latex-export-parent-and-sync ()
+  (if org-auto-sync-pdf
+      (org-latex-sync-pdf)
+    (save-buffer-mask-hook)
+    (not-modified)
+    (org-latex-export-parent-to-latex)))
+
+(defun org-latex-sync-pdf ()
+  (interactive)
+  (let ((p (point))
+	;; (end (sentence-end)))
+	(end (line-end-position))
+	(buffer-undo-list nil) )
+    ;; (temporary-changes
+    (goto-char end)
+    (insert "\n   \\pdfcomment{this-is-the-current-position}")
+    (let ((p2 (point))
+	  (after-save-hook nil)
+	  (before-save-hook nil) )
+      (save-buffer)
+      ;; (primitive-undo 1 buffer-undo-list)
+      (org-latex-export-parent-to-latex)
+      (delete-region end p2)
+      (goto-char p)
+      (save-buffer)
+      (not-modified)
+      )))
 
 (defun latexmk-buffer-name ()
   (let* ((fn (buffer-file-name (current-buffer))))
     (format "*latexmk %s*" fn)))
-(defun kill-latexmk ()
-  (kill-buffer (latexmk-buffer-name)))
+
+;; (defun kill-latexmk ()
+;;   (kill-buffer (latexmk-buffer-name)))
 
 (defun launch-latexmk ()
   (let ((buf-name (latexmk-buffer-name)))
-    (when (not (get-buffer buf-name))
-      (let ((buf (get-buffer-create buf-name)))
-	(start-process "latexmk" buf
-		       "latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none")
-	;; "-silent")
-	(add-hook 'kill-buffer-hook 'kill-latexmk t t)))))
+    ;; (when (not (get-buffer buf-name))
+    (let ((buf (or (get-buffer buf-name) (get-buffer-create buf-name))))
+      (start-process "latexmk" buf
+                     "latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none")
+      ;; "-silent")
+      (add-hook 'kill-buffer-hook 'kill-latexmk t t))))
 
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(define-key global-map "\C-cc" 'org-capture)
+(defun set-extension (fp ext)
+  (concat (file-name-sans-extension fp) ext))
+
+;; (TeX-command-master)
+;; org-get-heading
+;; org-previous-visible-heading
+;; pdf-view-jump-to-register
+;; doc-view-search
+;; buffer-substring-no-properties
+
+
+
+;; pdf-view-goto-page
+(defun org-sync-pdf ()
+  (let ((buf (get-file-buffer (org-target-pdf-file))))
+    ;; (trace (org-current-heading))
+    ;; (when-let (hd (org-current-heading))
+    ;; (let ((page (org-pdf-page-of hd)))
+    (when-let (page (org-pdf-page-of-annot "this-is-the-current-position"))
+    ;; (org-pdf-page-of (org-current-heading))
+    ;; ))
+	;; (print (org-current-heading))
+      (with-current-buffer buf
+	(pdf-view-goto-page page (get-buffer-window buf))))))
+
+(defmacro mask-hook (hooks &rest args)
+  (let ((vars (mapcar (lambda (x) (list x 'nil)) hooks)))
+    `(let ,vars
+       ,@args)))
+
+(defun save-buffer-mask-hook ()
+  (mask-hook (after-save-hook before-save-hook)
+	     (save-buffer)))
+
+(defun org-pdf-page-of-annot (annot)
+  (let* ((outline (pdf-info-getannots nil (get-file-buffer (org-target-pdf-file))))
+	 (entry (car (seq-filter
+		      (lambda (entry)
+			(equal annot
+			       (cdr (assoc 'contents entry))) )
+		      outline))))
+    (cdr (assoc 'page entry))))
+
+(defun org-pdf-page-of-heading (h)
+  (let* ((outline (pdf-info-outline (get-file-buffer (org-target-pdf-file))))
+	 (hh (seq-take-while (lambda (c) (not (equal (string c) "["))) h))
+	 (entry (car (seq-filter
+		      (lambda (entry)
+			(string-match-p hh (cdr (assoc 'title entry))) )
+		      outline))))
+    (cdr (assoc 'page entry))))
+
+(defun org-current-heading ()
+  (save-excursion
+    (trace (org-before-first-heading-p))
+    (if (org-before-first-heading-p)
+	(progn
+	  (org-next-visible-heading 1)
+	  (substring-no-properties (org-get-heading)))
+      (trace (org-get-heading))
+      (if (string-match-p "TODO\\|END" (substring-no-properties (org-get-heading)))
+	  (progn
+	    (org-previous-visible-heading 1)
+	    (org-current-heading))
+	(substring-no-properties (org-get-heading))))))
+
+(defun org-target-pdf-file ()
+  (concat (file-name-as-directory default-directory)
+	  (set-extension org-root-doc ".pdf")))
+
+(defun org-target-tex-file ()
+  (concat (file-name-as-directory default-directory)
+	  (set-extension org-root-doc ".tex")))
+
+(defun org-preview-pdf ()
+  (interactive)
+  (with-current-buffer
+      (find-file-other-window (org-target-pdf-file))))
+
+(defun org-view-latex ()
+  (interactive)
+  (with-current-buffer (find-file (org-target-tex-file))
+    (TeX-command-run-all) ))
+
+(defun display-pdf (&optional pdf)
+  (interactive)
+  (let ((pdf (or pdf (set-extension org-root-doc ".pdf"))))
+    (save-selected-window
+      (with-current-buffer (find-file-other-window pdf)
+	(unless (boundp 'pdf-setup)
+	  ;; revert-without-query
+	  (add-to-list 'revert-without-query (expand-file-name pdf))
+	  (add-to-list 'revert-without-query pdf)
+	  (setq-local pdf-setup t))
+	;; (display-buffer (current-buffer))
+	(revert-buffer)))))
+
+(defun compile-latex (root)
+  (let* ((buf-name (latexmk-buffer-name))
+	 (buf (get-buffer-create buf-name)))
+    (save-selected-window
+      (with-current-buffer buf
+	(let* ((pdf (set-extension root ".pdf"))
+	       (command "xelatex"))
+	  (let ((r (with-current-buffer buf
+		     (erase-buffer)
+		     ;; (call-process "xelatex" nil buf-name nil root)
+		     (call-process "latexmk" nil buf-name nil "-xelatex" "-f" root)
+		     )))
+	    (print r)
+	    (if (= r 0)
+		(progn
+		  (display-pdf pdf)
+		  (org-sync-pdf))
+	      (progn
+		;; (with-current-buffer (get-file-buffer pdf)
+		;; 	(set-buffer (current-buffer))
+		(display-buffer buf)
+		(with-current-buffer buf
+		  (goto-char (point-max)))))
+	    ))))))
+
+;; latex-preview-pane-mode
+
+;; (setq org-default-notes-file (concat org-directory "/notes.org"))
+;; (define-key global-map "\C-cc" 'org-capture)
+;; (string-join '("latexmk" "-xelatex" "-pvc" "structure.tex" "-view=none") " ")
+
+(add-hook 'doc-view-mode-hook #'pdf-tools-install)
+(add-hook 'doc-view-mode-hook (lambda () (linum-mode -1)))
+(add-hook 'pdf-view-mode-hook (lambda () (linum-mode -1)))
+;; (add-hook 'pdf-view-mode-hook 'auto-revert-mode)
+;; [[https://github.com/politza/pdf-tools][pdf-tools]]
+
+(setq org-latex-prefer-user-labels t)
